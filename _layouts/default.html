@@ -26,9 +26,10 @@
     <div id="container">
       <p class="tagline">{{ site.description | default: site.github.project_tagline }}</p>
       <div id="main" role="main">
-        <!-- maybe later <div class="download-bar">
-        <span class="blc"></span><span class="trc"></span>
-        </div> -->
+        <div class="download-bar">
+          <span class="blc"></span>
+          <span class="trc"></span>
+        </div>
         <article class="markdown-body">
           {{ content }}
         </article>
@@ -36,8 +37,7 @@
     </div>
     <footer>
       <div class="owner">
-
-      <p><a href="{{ site.github.owner_url }}" class="avatar"><img src="{{ site.github.owner_gravatar_url }}" width="48" height="48"></a>View <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a> on <a href="https://www.github.com">GitHub</a></p>
+        <p><a href="{{ site.github.owner_url }}" class="avatar"><img src="{{ site.github.owner_gravatar_url }}" width="48" height="48"></a>View <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a> on <a href="https://www.github.com">GitHub</a></p>
       </div>
       <div class="creds">
         <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a></small>
