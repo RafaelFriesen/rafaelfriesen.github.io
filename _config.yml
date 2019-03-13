@@ -1,7 +1,7 @@
 # Site
 title:              'Rafael Friesen'
 bio:                'Schön, dass du hier vorbeischaust'
-description:        'Wenn ich mal dazu komme, lade ich hier mehr hoch' 
+description:        'Private Homepage. Just for fun.'
 reading_time:       true
 words_per_minute:   200
 logo:               'assets/img/Piet.gif'
@@ -24,6 +24,11 @@ mathjax:            true
 sass:
   sass_dir:         _sass
   style:            compressed
+
+# see https://jekyllrb.com/docs/collections/
+collections:
+  team:
+    output: true
 
 # Comments
 disqus_shortname:   rafaelfriesen
