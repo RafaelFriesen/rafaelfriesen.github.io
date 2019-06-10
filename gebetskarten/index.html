@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Gebetskarten</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+
+    var deck_names = ['dank', 'bitte', 'anbeten', 'fürbitte'];
+    var decks = {
+        dank: {
+            color: '#c92',
+            pre: 'DANKEN',
+            stack: [
+                'Dir, Herr, will ich von ganzem Herzen danken und erzählen will ich von Deinen wunderbaren Taten.<br><i>Psalm 9,2</i>',
+                'Preist den Herrn, denn Er ist gut und seine Gnade hört niemals auf.<br><i>Psalm 107,1</i>',
+                'Vater im Himmel, heute will ich Dir für drei Dinge danken:<br>1.  . . .<br>2.  . . .<br>3.  . . .',
+                'Herr, ich danke Dir, weil du uns täglich<br>mit  . . .<br>und  . . .<br> versorgst.',
+                'Unser Vater im Himmel, danke dass Du mein Gebet erhört hast.<br><br>Du hast  . . .',
+                'Jesus, ich danke Dir, dass Du mich gerettet hast.<br><br> Du hast  . . .',
+                'Danke, Jesus, dass Du mir heute bei  . . .<br>geholfen hast.',
+                'Vater im Himmel, ich danke Dir für  . . .',
+            ]
+        },
+        bitte: {
+            color: '#a11',
+            pre: 'BITTEN',
+            stack: [
+                'Gott, Du bist geich an Liebe und Güte; darum erbarme Dich über mich, vergib mir meine Verfehlungen!<br><i>Psalm 51,3</i>',
+                'Herr, zeige mir den Weg, den ich gehen soll; lass mich erkennen, was du von mir verlangst<br><i>Psalm 25,4</i>',
+                'Jesus, heute habe ich mich geärgert,<br>weil  . . .<br><br>Bitte hilf mir,<br>dass ich  . . .',
+                'Jesus, heute ist mir eine dumme Sache passiert.<br><br>Bitte vergib mir,<br>dass ich  . . .',
+                'Lieber Vater,<br>ich brauche dringend  . . .<br><br>Du kannst mir helfen!',
+                'Jesus, manchmal habe ich Angst vor  . . .<br><br>Bitte hilf mir!',
+                'Jesus, ich brauche dich so sehr!<br><br>Ich bitte dich  . . .',
+                'Jesus bitte hilf mir heute<br>bei  . . .<br>in  . . .',
+            ]
+        },
+        anbeten: {
+            color: '#081',
+            pre: 'ANBETEN',
+            stack: [
+                'Kommt, verneigt euch, werft euch nieder, geht auf die Knie und betet ihn an, ihn den Herrn, unseren Schöpfer<br><i>Psalm 95,6</i>',
+                'Alle Welt soll Dich anbeten, alle sollen Dir singen, Dich mit ihren Liedern preisen!<br><i>Psalm 66,2</i>',
+                'Vater, ich bin so stolz auf Dich, weil Du<br><br>größer bist als  . . .<br><br>stärker bist als  . . .',
+                'Vater im Himmel, ich freue mich jeden Tag über Dich.<br><br>Du bist für mich wie  . . .',
+                'Jesus, Du hast es als Einziger verdient, dass man Dich anbetet,<br><br>weil Du  . . .',
+                'Jesus, wer ist so . . . wie du? Niemand!<br><br>Darum finde ich Dich echt klasse!',
+                'Gott, ich find Dich einfach super,<br>weil du  . . .<br>bist und  . . .',
+                'Gott, in meinem Herzen hast Du den ersten Platz,<br><br>weil Du  . . .',
+            ]
+        },
+        fürbitte: {
+            color: '#16a',
+            pre: 'FÜRBITTE',
+            stack: [
+                'Steh auf, Herr!<br>Greif doch ein, Gott!<br>Vergiss nicht die Schwachen, nimm sie in Schutz!<br><i>Psalm 10,12</i>',
+                'Ich bete zu Dir, Gott, höre mich!<br><br>Verschließe die Ohren nicht vor meiner Bitte!<br><i>Psalm 54,4</i>',
+                'Jesus<ul><li>im Kindergarten</li><li>in der Schule</li><li>auf der Arbeit</li><li>in der Familie</li></ul>... brauchen wir deine Hilfe!<br>Bitte  . . .',
+                'Lieber Vater, ich bitte Dich für unseren Nachbarn:<br><br>. . .',
+                'Jesus, bitte hilf:<br><br>meiner Mama bei  . . .<br><br>meinem Papa bei  . . .',
+                'Lieber Vater,<br>mein Freund  . . .<br>meine Freundin  . . .<br>braucht Deine Hilfe!<br><br>Bitte  . . .',
+                'Jesus,  . . .  ist krank.<br><br>Bitte mach  . . .  wieder ganz gesund.',
+                'Jesus, bitte beschütze heute  . . .<br>und sei ihr/ihm ganz nah.',
+            ]
+        },
+        vaterunser: {
+            color: '#892',
+            pre: 'VATER UNSER',
+            stack: [
+                'Vater unser im Himmel, geheiligt werde Dein Name.<br><br>' +
+                'Dein Reich komme. Dein Wille geschehe, wie im Himmel, so auf Erden<br><br>' +
+                'Unser tägliches Brot gib uns heute.<br><br>' +
+                'Und vergib uns unsere Schuld, wie auch wir vergeben unseren Schuldigern.<br><br>' +
+                'Und führe uns nicht in Versuchung, sondern erlöse uns von dem Bösen<br><br>' +
+                'Denn dein ist das Reich und die Kraft und die Herrlichkeit in Ewigkeit.<br><br>Amen.'
+            ]
+        },
+        settings: {
+            color: '#333',
+            pre: 'ANLEITUNG',
+            stack: ['Tippe auf die farbigen Buttons um Gebetskarten zu ziehen.<br>' +
+                    'Tippe auf den bunten Button für eine Zufällige Karte.']      
+        }
+    }
+    function drawCard(category) {
+        var deck =  decks[category];
+        if (deck == undefined) {
+            deck = decks[deck_names[Math.floor(Math.random()*deck_names.length)]];
+        }
+        var stack = deck.stack
+        var idx = Math.floor(Math.random() * stack.length);
+        var div = document.getElementById("karte");
+        div.innerHTML = '<h4 class="center">'+ deck.pre + '</h4><hr>' + stack[idx];
+        div.style.backgroundColor = deck.color;
+    };
+  </script>
+  <style>
+      *, *:before, *:after {
+          box-sizing: border-box;
+      }
+      table {
+          width: 100%;
+          border-spacing: 0px;
+          border-collapse: collapse;
+      }
+      th {
+          padding: 0;
+      }
+      .btn {
+        box-sizing: border-box;
+      }
+      button.btn {
+          color: #fff;
+          width: 100%;
+          height: 10vh;
+          width: 25vw;
+          font-size: x-large;
+          padding: 0;
+      }
+      .bunt {
+          background-image: url(bunt.jpg);
+          background-size: 110% 110%;
+          background-position: center;
+      }
+      #karte {
+          font-size: x-large;
+          min-height: 80vh;
+          padding: 5vh;
+          background-color: #555;
+          color: #fff;
+      }
+      .center {
+          text-align: center;
+      }
+      i {
+          text-align: right;
+          display: block;
+      }
+  </style>
+</head>
+
+<body style="background-color: #555;">
+    <div style="padding: 0px">
+        <table>
+            <tr>
+                <th>
+                    <button class="btn" onclick="drawCard('vaterunser')"
+                            style="width: 50vw; background-color: #892">
+                        <img height="90%" src="gruppe.png" alt="Menü">
+                    </button><button class="btn bunt" onclick="drawCard()">
+                    </button><button class="btn" 
+                                    style="background-color: #555" 
+                                    onclick="drawCard('settings')">
+                        <img height="90%" src="menü.png" alt="Menü">
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <button class="btn" onclick="drawCard('dank')" style="background-color: #c92">
+                        <img height="90%" src="dank.png" alt="Menü">
+                    </button><button class="btn" onclick="drawCard('bitte')" style="background-color: #a11">
+                        <img height="90%" src="bitte.png" alt="Menü">
+                    </button><button class="btn" onclick="drawCard('anbeten')" style="background-color: #081">
+                        <img height="90%" src="lob.png" alt="Menü">
+                    </button><button class="btn" onclick="drawCard('fürbitte')" style="background-color: #16a">
+                        <img height="90%" src="fürbitte.png" alt="Menü">
+                    </button>
+                </th>
+            </tr>
+        </table>
+        <div id="karte">
+            <div class="center">
+                <h2>Zusammen beten</h2>
+                <h3>Gebets-Impuls-Karten</h3><hr>
+                <div style="font-size: initial">
+                    <span style="background-color: #c92"><img style="height:.8em" src="dank.png"> Danken</span> –
+                    <span style="background-color: #a11"><img style="height:.8em" src="bitte.png"> Bitten</span> –
+                    <span style="background-color: #081"><img style="height:.8em" src="lob.png"> Anbeten</span> –
+                    <span style="background-color: #16a"><img style="height:.8em" src="fürbitte.png"> Fürbitte</span><br>
+                    <span style="background-color: #892"><img style="height:.8em" src="gruppe.png"> Vater unser</span>
+                </div>
+                <br><br>
+                <a href="http://www.horizonte-weltweit.de/shopgebetskarten/">
+                    <button class="btn btn-success" style="height: 20vh; width:60vw">
+                        Jetzt Bestellen!</div></a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
