@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <title>Gitarre &amp; co</title>
+  <meta charset="utf-8">
+  <!--
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  -->
+  <script type="text/javascript">
+    function dynamic_text() {
+      // load eps, change settings, send to download
+      return "TODO";
+    }
+
+    function download_file(name, contents, mime_type) {
+      mime_type = mime_type || "text/plain";
+      var blob = new Blob([contents], {type: mime_type});
+      var dlink = document.createElement('a');
+      dlink.download = name;
+      dlink.href = window.URL.createObjectURL(blob);
+      dlink.onclick = function(e) {
+        // revokeObjectURL needs a delay to work properly
+        var that = this;
+        setTimeout(function() {
+          window.URL.revokeObjectURL(that.href);
+        }, 1500);
+      };
+      dlink.click();
+      dlink.remove();
+    }
+  </script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Gitarre &amp; co.</h1>
+      <p>
+        Ich spiele seit etwa Y2K Gitarre. Ich habe es mir selbst und anderen
+        beigebracht, und dabei Hilfsmittel entwickelt.
+      </p>
+    <h2>Einfache Grifftabelle</h2>
+      <p>
+        Hier ist ein PDF mit einer einfachen Grifftabelle:<br>
+        <a href="akkorde.pdf">
+          <img src="akkorde.png" border=1 width="130" height="178" title="einfache Grifftabelle" />
+        </a><br>
+        Falls du die verändern willst: <a href="akkorde.eps">Hier</a> gibt es die Quelldatei.
+      </p>
+    <h2>Universal-Grifftabelle</h2>
+      Meine Lieblingserfindung ist die Universal-Grifftabelle:<br>
+      <a href="universal.pdf">
+        <img src="universal.png" border=1 height="300" title="Universal-Grifftabelle" />
+      </a><br>
+      Falls du die verändern willst: <a href="universal.eps">Hier</a> gibt es die Quelldatei.
+      Schau sie dir einfach mit einem beliebigen Text-Editor an,
+      ziemlich am Anfang habe ich erklärt, wie du andere Stimmungen einstellst.
+    <h3>Warum?</h3>
+      Es gibt zu viele Bücher à la "Die 1000 wichtigsten Gitarrengriffe".
+      Darin finden Anfänger dann jeden Akkord 100x und wissen immer noch nicht,
+      welcher der richtige ist. Wenn man verstanden hat, an welchen Stellen man
+      für welchen Akkord drücken darf, kann man sich selbst überlegen, welche
+      Griffe man bequem spielen kann und was sich gut anhört.
+    <h3>Wer?</h3>
+      Von Anfänger bis Profi kann diese Tabelle allen helfen. Man sollte vorher
+      schon – sagen wir – 5 Griffe spielen können, und kann sich hiermit alle
+      weiteren beibringen. Wenn man als Profi Variationen sucht, hilft diese
+      Tabelle immer noch. Besonders praktisch finde ich sie, wenn ich neue
+      Instrumente oder Stimmungen probieren will (Dann braucht man die .eps-Datei)
+    <h3>Wie?</h3>
+      So sieht z.B. das Muster für den Akkord D-dur aus:<br>
+      <img src="beispiel.png" height="200"><br>
+      <h4>Wie lese ich das?</h4>
+      Der unterste Strich ist die Tiefe E-Saite, der oberste Strich ist die hohe E-Saite.
+      Die Punkte links vom Doppelstrich bedeuten: Die Saite schwingt leer, wird also nicht gedrückt.
+      <h4>Wie drücke ich einen Akkord?</h4>
+      Überall, wo ein Schwarzer Punkt ist, darfst du drücken.
+      Jede Saite sollte entweder an einem Schwarzen punkt gedrückt werden oder ganz links einen schwarzen Punkt haben.
+      <h4>Was sollen die bunten Punkte?</h4>
+      Wenn du eine Variation spielen willst, suchst du dir die passende Farbe aus der Legende:<br>
+      <img src="legende.png" height="300"><br>
+      Die Punkte dieser Farbe kannst du zusätzlich zu den schwarzen Punkte drücken.
+      Um z.B. D4 zu spielen, darfst du schwarze und rote Punkte drücken.
+      Damit es wirklich D4 ist, sollte mindestens ein roter Punkt dabei sein.<br>
+      Man kann auch kombinieren: Für z.B. D4/7 drücke Schwarz, Rot und Blau.
+  </div>
+</body>
+
+</html>
