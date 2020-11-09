@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>2er Treffen</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!--
+            ##  ######                      
+            ## ##    ##                     
+            ## ##                           
+            ##  ######                      
+      ##    ##       ##                     
+      ##    ## ##    ##                     
+       ######   ######   -->
+
+    <script type="text/javascript">
+      function get_kw(offset = 0) {
+        var tdt = new Date(Date.now().valueOf());
+        tdt.setDate(tdt.getDate() + offset * 7);
+        var dayn = (tdt.getDay() + 6) % 7;
+        tdt.setDate(tdt.getDate() - dayn + 3);
+        var firstThursday = tdt.valueOf();
+        tdt.setMonth(0, 1);
+        if (tdt.getDay() !== 4) {
+          tdt.setMonth(0, 1 + ((4 - tdt.getDay() + 7) % 7));
+        }
+        let kw = 1 + Math.ceil((firstThursday - tdt) / 604800000);
+        return { nr: kw, label: "KW " + kw };
+      }
+
+      function get_day(offset = 0) {
+        var now = new Date();
+        now.setDate(now.getDate() + offset);
+        var start = new Date(now.getFullYear(), 0, 0);
+        var diff = now - start;
+        var oneDay = 1000 * 60 * 60 * 24;
+        var day = Math.floor(diff / oneDay);
+        return { nr: day, label: now.toISOString().substring(0, 10) };
+      }
+
+      function get_round(offset = 0) {
+        switch (document.getElementById("interval").value) {
+          case "week":
+            return get_kw(offset);
+          case "day":
+            return get_day(offset);
+          default:
+            return { nr: offset, label: "Runde " + (offset + 1) };
+        }
+      }
+
+      function matches(time) {
+        let names = getNames();
+        var n = names.length;
+        var result = [];
+        let nx = n % 2 == 0 ? n - 1 : n;
+        let add = (Math.floor(time.nr / n) % (n - 1)) + 1;
+        var double = document.getElementById("double").checked;
+        let special;
+        for (let i = 0; i < nx; i++) {
+          var entry = { a: i, b: n, optional: false };
+          var match = (nx + nx + time.nr - i) % nx;
+          if (i == match) {
+            special = i;
+            if (n % 2 == 0) {
+              match = n - 1;
+            } else {
+              entry.optional = true;
+              match = (i + add) % n;
+            }
+          }
+          entry.b = match;
+          result.push(entry);
+        }
+        if (n % 2 == 0) {
+          // last one is always matched to special
+          result.push({ a: n - 1, b: special, optional: false });
+        } else {
+          if (double) {
+            result[result[special].b].c = special;
+          } else {
+            result.splice(special, 1);
+          }
+        }
+        return "<h2>" + time.label + "</h2>" + list_matches(names, result);
+      }
+
+      function list_matches(names, mats) {
+        result = "";
+        for (mat of mats) {
+          result +=
+            "<li>" +
+            names[mat.a] +
+            ": " +
+            names[mat.b] +
+            (mat.optional ? " *" : "") +
+            (mat.c != undefined ? " + " + names[mat.c] : "") +
+            "</li>";
+        }
+        return "<ul>" + result + "</ul>";
+      }
+
+      function getNames() {
+        return document
+          .getElementById("inputtext")
+          .value.trim()
+          .split("\n")
+          .map((x) => x.trim());
+      }
+
+      function saveText() {
+        names = document
+          .getElementById("inputtext")
+          .value.trim()
+          .split("\n")
+          .map((x) => x.trim())
+          .join("\n");
+
+        localStorage.setItem("names", names);
+        localStorage.setItem("int", document.getElementById("interval").value);
+        localStorage.setItem("dbl", document.getElementById("double").checked);
+
+        document.getElementById("share").innerHTML =
+          window.location.href.split("?")[0] +
+          "?names=" +
+          encodeURI(names) +
+          "&int=" +
+          document.getElementById("interval").value +
+          "&dbl=" +
+          document.getElementById("double").checked;
+      }
+      function init() {
+        var url = new URL(window.location.href);
+        var nurl = url.searchParams.get("names");
+        var iurl = url.searchParams.get("int");
+        var durl = url.searchParams.get("dbl");
+        let nlocal = localStorage.getItem("names");
+        let ilocal = localStorage.getItem("int");
+        let dlocal = localStorage.getItem("dbl");
+        if (nurl) {
+          // try from url
+          document.getElementById("inputtext").value = nurl;
+          document.getElementById("interval").value = iurl || "week";
+          document.getElementById("double").checked = durl;
+        } else if (nlocal) {
+          // try from localstorage
+          document.getElementById("inputtext").value = nlocal;
+          document.getElementById("interval").value = ilocal || "week";
+          document.getElementById("double").checked = dlocal;
+        }
+        run();
+      }
+      function run() {
+        saveText();
+        let odd = getNames().length % 2 == 1;
+        document.getElementById("doublediv").style.display = odd
+          ? "block"
+          : "none";
+        var all = "";
+        for (let i = 0; i < 10; i++) {
+          all += "<div>" + matches(get_round(i)) + "</div>";
+        }
+        document.getElementById("out").innerHTML = all;
+      }
+    </script>
+
+    <!--
+       ######   ######   ######             
+      ##    ## ##    ## ##    ##            
+      ##       ##       ##                  
+      ##        ######   ######             
+      ##             ##       ##            
+      ##    ## ##    ## ##    ##            
+       ######   ######   ######   -->
+
+    <style></style>
+  </head>
+
+  <!--
+      ##     ## ######## ##     ## ##       
+      ##     ##    ##    ###   ### ##       
+      ##     ##    ##    #### #### ##       
+      #########    ##    ## ### ## ##       
+      ##     ##    ##    ##     ## ##       
+      ##     ##    ##    ##     ## ##       
+      ##     ##    ##    ##     ## ######## -->
+
+  <body style="background-color: #bbb" onload="init()">
+    <div class="container text-center">
+      <h1>Zweier-Treffen</h1>
+      <div>
+        Wenn ihr euch innerhalb einer Gruppe jeweils zu zweit treffen wollt.
+      </div>
+      <hr />
+      <form class="text-left">
+        Bitte gib eure Namen ein, pro Zeile ein Name:
+        <textarea
+          id="inputtext"
+          rows="10"
+          oninput="run()"
+          style="width: 100%; background-color: #ddd"
+        >
+Name1
+Name2
+Name3
+Name4
+Name5
+Vollständige Namen sind auch möglich</textarea
+        >
+        <br />
+        <select id="interval" oninput="run()" style="background-color: #ddd">
+          <option value="week">Wochenweise</option>
+          <option value="round">Rundenweise</option>
+          <option value="day">Täglich</option>
+        </select>
+        <br />
+        <div id="doublediv">
+          <input
+            id="double"
+            type="checkbox"
+            checked="true"
+            oninput="run()"
+            style="background-color: #ddd"
+          />
+          Die übrige Person zuordnen (Bei einer ungeraden Anzahl von Personen
+          bleibt immer eine Person übrig. Diese kann einer anderen Person, die
+          schon einen Partner hat, zugeordnet werden. Auf Dauer treffen sich
+          aber alle gleich oft)
+        </div>
+      </form>
+      <hr />
+      <div>
+        Wenn du alles eingetragen hast, teile diesen Link:<br />
+        <span id="share" style="font-family: monospace"></span>
+      </div>
+      <hr />
+      <div id="out" class="text-left"></div>
+    </div>
+  </body>
+</html>
