@@ -171,6 +171,20 @@
         document.getElementById("out").innerHTML = all;
       }
     </script>
+    <style>
+      h1 {
+        padding: 1em;
+      }
+      .explain {
+        font-style: italic;
+      }
+      .card {
+        background-color: #999;
+        padding: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+    </style>
   </head>
 
   <!--
@@ -185,46 +199,52 @@
   <body style="background-color: #bbb" onload="init()">
     <div class="container text-center">
       <h1>Zweier-Treffen</h1>
-      <div>
+      <div class="explain">
         Wenn ihr euch innerhalb einer Gruppe jeweils zu zweit treffen wollt.
         <a href="https://de.wikipedia.org/wiki/Rundenturnier">Mehr Infos</a>
       </div>
-      <hr />
-      <form class="text-left">
-        Bitte gib eure Namen ein, pro Zeile ein Name:
-        <textarea
-          id="inputtext"
-          rows="10"
-          oninput="run()"
-          style="width: 100%; background-color: #ddd"
-        >
+
+      <div class="card">
+        <form class="text-left">
+          Bitte gib eure Namen ein, pro Zeile ein Name:
+          <textarea
+            id="inputtext"
+            rows="8"
+            oninput="run()"
+            style="width: 100%; background-color: #ddd"
+          >
 Name1
 Name2
 Name3
 Vor- und Nachname4</textarea
-        >
-        <br />
-        <select id="interval" oninput="run()" style="background-color: #ddd">
-          <option value="week">Wochenweise</option>
-          <option value="round">Rundenweise</option>
-          <option value="day">Täglich</option>
-        </select>
-        <br />
-        <div id="doublediv">
-          <input
-            id="double"
-            type="checkbox"
-            checked="true"
+          >
+          <br />
+          <select
+            id="interval"
             oninput="run()"
-            style="background-color: #ddd"
-          />
-          Die übrige Person zuordnen (Bei einer ungeraden Anzahl von Personen
-          bleibt immer eine Person übrig. Diese kann einer anderen Person, die
-          schon einen Partner hat, zugeordnet werden. Auf Dauer treffen sich
-          aber alle gleich oft)
-        </div>
-      </form>
-      <hr />
+            style="background-color: #ddd; margin: 10px 0px 10px"
+          >
+            <option value="week">Wochenweise</option>
+            <option value="round">Rundenweise</option>
+            <option value="day">Täglich</option>
+          </select>
+          <br />
+          <div id="doublediv">
+            <input
+              id="double"
+              type="checkbox"
+              checked="true"
+              oninput="run()"
+              style="background-color: #ddd"
+            />
+            Die übrige Person zuordnen (Bei einer ungeraden Anzahl von Personen
+            bleibt immer eine Person übrig. Diese kann einer anderen Person, die
+            schon einen Partner hat, zugeordnet werden. Auf Dauer treffen sich
+            aber alle gleich oft)
+          </div>
+        </form>
+      </div>
+
       <div>
         Wenn du alles eingetragen hast, teile diesen Link:<br />
         <span id="share" style="font-family: monospace"></span>
