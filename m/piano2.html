@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Piano</title>
+    <style>
+        .white {
+            background: white;
+        }
+        .black {
+            background: #555;
+        }
+        .playing {
+            background: #AAA;
+        }
+        #container {
+            position: absolute;
+            top: 30px;
+            left: 10px;
+        }
+        .knob {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            border: 2px solid black;
+            text-align: center;
+            font-size: 40px;
+            line-height: 60px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.32/Tone.js"></script>
+</head>
+<body>
+<div id='container'>
+</div>
+<script>
+    // https://www.youtube.com/watch?v=wIxqNrooWws
+    // https://jsfiddle.net/shaiui/0z8x352n/
+    // https://cdnjs.com/libraries/tone
+    // https://tonejs.github.io/
+
+
+    var size = 60;
+    var synth = new Tone.PolySynth(Tone.Synth, 3).toDestination();
+    var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+    var html = '';
+
+    for (var row = 0; row < 9; row++) {
+        for (var i = -(row>>1); i < 10-(row>>1); i++) {
+            var note = notes[(row * 4 + i * 7) % 12];
+            octave = Math.floor((row*4+i*7)/12)+2;
+            var color = note.length>1?'black':'white'
+            html += `<div class='${color} knob'
+                    style="left:${(i*1.2+row*0.6625)*size}px; top:${(row-i*0.05)*size}px;"
+                    onmousedown='noteDown(this, color)'
+                    onmouseup='noteUp(this, color)'
+                    onmouseleave='noteUp(this, color)'
+                    data-note='${note + octave}'>${note}</div>`;
+        }
+    }
+
+    document.getElementById('container').innerHTML = html;
+
+    function noteUp(elem) {
+        elem.classList.remove('playing');
+    }
+
+    function noteDown(elem) {
+        var note = elem.dataset.note;
+        elem.classList.add('playing');
+        synth.triggerAttackRelease(note, "4n");
+        event.stopPropagation();
+    }
+
+</script>
+</body>
+</html>
