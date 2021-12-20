@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>NFT</title>
+  <meta charset="utf-8"/>
+
+  <!-- JS -->
+  <script type="text/javascript">
+    // adapt these counts to the number of elements at the bottom.
+    var counts = [
+      ['circ', 3],
+      ['line', 3],
+      ['eyes', 3],
+    ]
+    var variations;
+
+    function onSeedChange() {
+      var seed = document.getElementById('seed').value;
+      var primImage = makeImage(seed);
+      document.getElementById('primaryView').firstChild.replaceWith(primImage);
+    }
+
+    function getElementCombination(seed) {
+      result = []
+      counts.forEach(([name, count]) => {
+        var x = (seed % count) + 1;
+        result.push([name, x])
+        seed = Math.floor(seed / count);
+      });
+      return result;
+    }
+
+    function makeImage(seed) {
+      seed = (seed * 97) % variations;
+      var newSvg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+      getElementCombination(seed).forEach(([name, x]) => {
+        var elem = document.createElementNS("http://www.w3.org/2000/svg", 'use');
+        elem.setAttribute('href', '#x' + name + x);
+        newSvg.setAttribute('style', 'width: 100px');
+        newSvg.appendChild(elem);
+      });
+      return newSvg;
+    }
+
+    function init() {
+      // calculate number of variations
+      variations = counts.map(x => x[1]).reduce((a, b) => a * b);
+      // set max for number input
+      document.getElementById('seed').setAttribute('max', variations - 1);
+      // create all images
+      let allImages = document.getElementById('allImages');
+      for (var i = 0; i < variations; i++) {
+        allImages.appendChild(makeImage(i));
+      }
+    }
+  </script>
+
+  <!-- CSS -->
+  <style></style>
+</head>
+
+<!-- HTML -->
+<body style="background-color: #555" onload="init()">
+<div style="padding: 0px">
+  <div id="headline">
+    <div class="center">
+      <h1>NFT 9000</h1>
+      <form>
+        <input id="seed" type="number" min="0" max="3" onchange="onSeedChange()">
+      </form>
+      <hr/>
+      <div id="primaryView">
+        <svg></svg>
+      </div>
+    </div>
+    <hr>
+    <div id="allImages" style="display: flex; flex-direction: row; flex-wrap: wrap">
+    </div>
+  </div>
+</div>
+
+<!-- SVG -->
+<svg style="display: none">
+  <!-- name the ids so they match the counts array at the top -->
+  <g id="xcirc1">
+    <circle cx="50" cy="50" r="40" stroke="#FFF" stroke-width="10" fill="none"/>
+  </g>
+  <g id="xcirc2">
+    <circle cx="50" cy="50" r="30" stroke="#FFF" stroke-width="5" fill="none"/>
+  </g>
+  <g id="xcirc3">
+    <circle cx="50" cy="50" r="48" stroke="#FFF" stroke-width="2" fill="none"/>
+  </g>
+
+  <g id="xline1">
+    <line x1="30" y1="70" x2="70" y2="70" style="stroke: #FFF; stroke-width: 5;"/>
+  </g>
+  <g id="xline2">
+    <line x1="40" y1="70" x2="60" y2="70" style="stroke: #FFF; stroke-width: 5;"/>
+  </g>
+  <g id="xline3">
+    <line x1="45" y1="70" x2="55" y2="70" style="stroke: #FFF; stroke-width: 5;"/>
+  </g>
+
+  <g id="xeyes1">
+    <circle cx="40" cy="40" r="10" stroke="#FFF" stroke-width="2" fill="none"/>
+    <circle cx="60" cy="40" r="10" stroke="#FFF" stroke-width="2" fill="none"/>
+    <circle cx="40" cy="43" r="2" stroke="#FFF" stroke-width="2" fill="none"/>
+    <circle cx="60" cy="38" r="2" stroke="#FFF" stroke-width="2" fill="none"/>
+  </g>
+  <g id="xeyes2">
+    <circle cx="45" cy="40" r="4" stroke="#FFF" stroke-width="2" fill="none"/>
+    <circle cx="55" cy="40" r="4" stroke="#FFF" stroke-width="2" fill="none"/>
+  </g>
+  <g id="xeyes3">
+    <line x1="35" y1="40" x2="45" y2="35" style="stroke: #FFF; stroke-width: 5;"/>
+    <line x1="65" y1="40" x2="55" y2="35" style="stroke: #FFF; stroke-width: 5;"/>
+  </g>
+</svg>
+</body>
+</html>
