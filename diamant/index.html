@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Der fliegende Diamant</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+      .bg-gray {
+        background-color: #ddc;
+      }
+
+      .text {
+        display: none;
+        font: italic 6px sans-serif;
+      }
+
+      #sib1:hover ~ #d1 {
+        transform: translate(60px, 5px);
+      }
+      #sib1:hover ~ .text1 {
+        display: block;
+      }
+
+      #sib1a:hover ~ #d1a {
+        transform: translate(60px, -5px);
+      }
+      #sib1a:hover ~ .text1a {
+        display: block;
+      }
+
+      #sib2:hover ~ #d2 {
+        transform: translate(50px, 5px);
+      }
+      #sib2:hover ~ .text2 {
+        display: block;
+      }
+
+      #sib3:hover ~ #d3 {
+        transform: translate(40px, 5px);
+      }
+      #sib3:hover ~ .text3 {
+        display: block;
+      }
+
+      #sib3a:hover ~ #d3a {
+        transform: translate(40px, -5px);
+      }
+      #sib3a:hover ~ .text3a {
+        display: block;
+      }
+
+      #sib4:hover ~ #d4 {
+        transform: translate(30px, 5px);
+      }
+      #sib4:hover ~ .text4 {
+        display: block;
+      }
+
+      #sib5:hover ~ #d5 {
+        transform: translate(20px, 5px);
+      }
+      #sib5:hover ~ .text5 {
+        display: block;
+      }
+
+      #sib5a:hover ~ #d5a {
+        transform: translate(25px, -5px);
+      }
+      #sib5a:hover ~ .text5a {
+        display: block;
+      }
+
+      .dreieck {
+        stroke: #99AACC;
+        pointer-events: none;
+        stroke-linejoin: bevel;
+        transition: 1s;
+      }
+
+
+    </style>
+  </head>
+
+  <body class="bg-gray p-3">
+    <svg width="90%" viewBox="0 0 160 40">
+      <defs>
+        <pattern id="pattern1" height="100%" width="100%" patternContentUnits="objectBoundingBox">
+          <image height="1" width="1" preserveAspectRatio="none"
+                 xlink:href="https://pbs.twimg.com/profile_images/1188883075004096516/SsiqytBV_400x400.jpg" />
+        </pattern>
+      </defs>
+
+      <polygon points="50 10 70 10 40 40" id="sib5a" class="sib" fill="#00000000"/>
+      <polygon points="50 10 70 10 40 40" id="d5a" class="dreieck" fill="url(#pattern1)"/>
+
+      <polygon points="50 10 60  0 70 10" id="sib5" class="sib" fill="#00000000"/>
+      <polygon points="50 10 60  0 70 10" id="d5" class="dreieck" fill="url(#pattern1)"/>
+
+      <polygon points="40  0 50 10 60  0" id="sib4" class="sib" fill="#00000000"/>
+      <polygon points="40  0 50 10 60  0" id="d4" class="dreieck" fill="url(#pattern1)"/>
+
+      <polygon points="30 10 50 10 40 40" id="sib3a" class="sib" fill="#00000000"/>
+      <polygon points="30 10 50 10 40 40" id="d3a" class="dreieck" fill="url(#pattern1)"/>
+
+      <polygon points="30 10 40  0 50 10" id="sib3" class="sib" fill="#00000000"/>
+      <polygon points="30 10 40  0 50 10" id="d3" class="dreieck" fill="url(#pattern1)"/>
+
+      <polygon points="20  0 30 10 40  0" id="sib2" class="sib" fill="#00000000"/>
+      <polygon points="20  0 30 10 40  0" id="d2" class="dreieck" fill="url(#pattern1)"/>
+
+      <polygon points="10 10 30 10 40 40" id="sib1a" class="sib" fill="#00000000"/>
+      <polygon points="10 10 30 10 40 40" id="d1a" class="dreieck" fill="url(#pattern1)"/>
+
+      <polygon points="10 10 20  0 30 10" id="sib1" class="sib" fill="#00000000"/>
+      <polygon points="10 10 20  0 30 10" id="d1" class="dreieck" fill="url(#pattern1)" />
+
+      <text class="text text1" y="5">
+        <tspan x="100">Jede Facette</tspan>
+        <tspan x="100" dy="10">hat einen</tspan>
+        <tspan x="100" dy="10">eigenen Text</tspan>
+      </text>
+      <text class="text text1a" y="5">
+        <tspan x="100">Die Reihenfolge</tspan>
+        <tspan x="100" dy="10">im Quelltext</tspan>
+        <tspan x="100" dy="10">ist wichtig</tspan>
+      </text>
+      <text class="text text2" y="5">
+        <tspan x="100">Das ganze ist</tspan>
+        <tspan x="100" dy="10">ein simples</tspan>
+        <tspan x="100" dy="10">SVG</tspan>
+      </text>
+      <text class="text text3" y="5">
+        <tspan x="100">Für Mobilgeräte</tspan>
+        <tspan x="100" dy="10">könnte der Text</tspan>
+        <tspan x="100" dy="10">nach unten</tspan>
+      </text>
+      <text class="text text3a" y="5">
+        <tspan x="100">Mouse over</tspan>
+        <tspan x="100" dy="10">ist auf Handys</tspan>
+        <tspan x="100" dy="10">so eine Sache</tspan>
+      </text>
+      <text class="text text4" y="5">
+        <tspan x="100">Lieben Gruß</tspan>
+        <tspan x="100" dy="10">von Rafael</tspan>
+        <tspan x="100" dy="10">an Katharina</tspan>
+      </text>
+      <text class="text text5" y="5">
+        <tspan x="100">Dieses Bild dient</tspan>
+        <tspan x="100" dy="10">nur zur</tspan>
+        <tspan x="100" dy="10">Veranschaulichung</tspan>
+      </text>
+      <text class="text text5a" y="5">
+        <tspan x="100">Die Umsetzung</tspan>
+        <tspan x="100" dy="10">ist eine</tspan>
+        <tspan x="100" dy="10">erste Idee</tspan>
+      </text>
+    </svg>
+  </body>
+<div class="mt-5">
+  Moin Katharina, so habe ich deine Idee verstanden.<br>
+  Ich wollte nur mal zeigen, dass sowas recht einfach zu machen ist.<br>
+  Das ganze hat natürlich seine Schwächen, aber sowas kann man alles klären und beheben.<br>
+  <ul>
+    <li>Auf Handys gibt es kein Mouse-Hover</li>
+    <li>Auf Handys würde der Text eher unter das Bild kommen</li>
+    <li>Längere Texte würde ich eher außerhalb des Bildes packen. (Es gibt viele Wege nach Rom. So war es jetzt halt schneller gemacht.)</li>
+  </ul>
+</div>
+</html>
