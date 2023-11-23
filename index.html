@@ -14,11 +14,7 @@
       rel="stylesheet"
       type="text/css"
     />
-    <link
-      href="https://fonts.googleapis.com/css?family=Lato"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
@@ -98,13 +94,44 @@
         font-style: italic;
         margin: 70px 0;
       }
-      .item {
+      .item,
+      .item.active {
         font-size: 19px;
         font-weight: 400;
-        margin: 20px 10% 50px;
+        padding: 0px 10%;
+        height: 8em;
       }
       .item span {
         font-style: normal;
+      }
+      .carousel-inner {
+        padding: 0px 10% 50px;
+      }
+      @media (max-width: 992px) {
+        .item,
+        .item.active {
+          height: 10em;
+        }
+      }
+      @media (max-width: 768px) {
+        .item,
+        .item.active {
+          height: 12em;
+        }
+      }
+      @media (max-width: 576px) {
+        .item,
+        .item.active {
+          height: 14em;
+          padding: 0px 5%;
+        }
+        .carousel-control.right,
+        .carousel-control.left {
+          width: 5%;
+        }
+        .carousel-inner {
+          padding: 0px 5% 50px;
+        }
       }
       .panel {
         border: 1px solid #005500;
@@ -193,9 +220,9 @@
       .slide {
         visibility: visible;
       }
-      .col-centered{
-          float: none;
-          margin: 0 auto;
+      .col-centered {
+        float: none;
+        margin: 0 auto;
       }
       .map-container {
         height: 300px;
@@ -324,13 +351,13 @@
           <h2>Über mich</h2>
           <br />
           <h4>
-            Ich entwickle individuelle Software aller Art und habe auch ein
-            besonderes Interesse an ungewöhnlichen Projekten.
+            Ich entwickle individuelle Software aller Art und habe auch ein besonderes Interesse an
+            ungewöhnlichen Projekten.
           </h4>
           <br />
           <p>
-            Mein interdisziplinärer Hintergrund vereinfacht die Kommunikation
-            mit Fachleuten aus allen Bereichen.
+            Mein interdisziplinärer Hintergrund vereinfacht die Kommunikation mit Fachleuten aus
+            allen Bereichen.
           </p>
           <br />
           <!--a href="#contact">
@@ -367,29 +394,26 @@
             <!-- MVP FIRST: Wenn wir auf einer grünen Wiese starten, werde ich
                 möglichst bald eine minimale Anwendung umsetzen, denn an einem
                 laufenden System lassen sich leichter Ideen aber auch Probleme finden. -->
-            <strong>EINFACH:</strong> Wir unterhalten uns in deinen Worten über
-            deine Wünsche, und wenn die noch nicht klar sind, dann finden wir im
-            Gespräch heraus, was du brauchst. Ich setze das dann um, und wir
-            bleiben währenddessen im Gespräch, um neue Ideen schon während der
-            Entwicklung auszuprobieren und umzusetzen. Auf Wunsch erkläre gern,
-            wie alles funktioniert.
+            <strong>EINFACH:</strong> Wir unterhalten uns in deinen Worten über deine Wünsche, und
+            wenn die noch nicht klar sind, dann finden wir im Gespräch heraus, was du brauchst. Ich
+            setze das dann um, und wir bleiben währenddessen im Gespräch, um neue Ideen schon
+            während der Entwicklung auszuprobieren und umzusetzen. Auf Wunsch erkläre gern, wie
+            alles funktioniert.
           </h4>
           <br />
           <h4>
-            <strong>EHRLICH:</strong> Wenn auf deiner oder meiner Seite etwas
-            nicht gut läuft, dann werde ich offen darüber reden. So lassen sich
-            Probleme früh erkennen und beseitigen.
+            <strong>EHRLICH:</strong> Wenn auf deiner oder meiner Seite etwas nicht gut läuft, dann
+            werde ich offen darüber reden. So lassen sich Probleme früh erkennen und beseitigen.
           </h4>
           <br />
           <h4>
-            <strong>KLAR:</strong> Manchmal wird Software komplex. Ich bin ein
-            visueller Typ und male auch gern mal etwas auf, um es zu
-            vereinfachen und zu erklären.
+            <strong>KLAR:</strong> Manchmal wird Software komplex. Ich bin ein visueller Typ und
+            male auch gern mal etwas auf, um es zu vereinfachen und zu erklären.
           </h4>
           <br />
           <h4>
-            <strong>FLEXIBEL:</strong> Wenn du Technologien nutzt, die ich noch
-            nicht verwendet habe: Kein Problem, ich lerne gern dazu.
+            <strong>FLEXIBEL:</strong> Wenn du Technologien nutzt, die ich noch nicht verwendet
+            habe: Kein Problem, ich lerne gern dazu.
           </h4>
           <br />
         </div>
@@ -673,11 +697,78 @@
 
     <div id="experience" class="container-fluid text-center">
       <h2>Erfahrungen A-Z</h2>
-      <div
-        id="langCarousel"
-        class="carousel slide text-center"
-        data-ride="carousel"
-      >
+      <div id="langCarousel" class="carousel slide text-center" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <h3>Assembler</h3>
+            Level: Grundkenntnisse<br />
+            Ich habe früh Assembler gelernt, und gelegentlich kleinere Programme geschrieben, z.B.
+            einen Brainfuck-Interpreter in &lt;100 Byte.
+          </div>
+          <div class="item">
+            <h3>C</h3>
+            Level: Beginner<br />
+            Ich habe selten C-Code angepasst aber noch kaum Schmerzen erfahren.
+          </div>
+          <div class="item">
+            <h3>Elixir</h3>
+            Level: Fortgeschritten<br />
+            Ich habe etwa 2 Jahre produktiv mit Elixir gearbeitet.
+          </div>
+          <div class="item">
+            <h3>Erlang</h3>
+            Level: Beginner<br />
+            Ich habe es mal gelernt und einfache kleine Programme geschrieben. Bei der Arbeit mit
+            Elixir bin ich gelegentlich darauf gestoßen.
+          </div>
+          <div class="item">
+            <h3>Haskell</h3>
+            Level: Grundkenntnisse<br />
+            Ich habe ein paar Semester Übungsgruppen zu Grundlagenvorlesungen geleitet und hier mit
+            Haskell programmiert.
+          </div>
+          <div class="item">
+            <h3>Java</h3>
+            Level: Fortgeschritten (Java 7)<br />
+            Ich habe einige Jahre überwiegend mit Java programmiert, Projektgröße: wenige Wochen.
+            Z.B. Schachspiel, Piet-Editor und Interpreter, Datenanalysen und Visualisierung.
+          </div>
+          <div class="item">
+            <h3>Matlab/Octave</h3>
+            Level: Grundkenntnisse<br />
+            In einigen Unikursen habe ich mit Matlab/Octave programmiert.
+          </div>
+          <div class="item">
+            <h3>Python</h3>
+            Level: Experte<br />
+            Ich habe etwa 3 Jahre mit Python entwickelt und geforscht. Mit Pandas, Keras,
+            scikit-learn und Jupyter bin ich vertraut.
+          </div>
+          <div class="item">
+            <h3>QBasic</h3>
+            Level: Fortgeschritten<br />
+            Mit QBasic habe ich das Programmieren gelernt, und einige tausend kleine Programme
+            geschrieben.
+          </div>
+          <div class="item">
+            <h3>SQL</h3>
+            Level: Fortgeschritten<br />
+            SQL ist irgendwie immer mit dabei, ich kann damit umgehen.
+          </div>
+          <div class="item">
+            <h3>SVG</h3>
+            Level: Grundkenntnisse<br />
+            Ich habe ein paar animierte Visualisierungen mit SVG erstellt.
+          </div>
+          <div class="item">
+            <h3>Typescript/Javascript</h3>
+            Level: Experte<br />
+            Ich habe mehrere Jahre im Kontext von Angular und React SPAs mit Typescript entwickelt,
+            aber auch einige Vanilla-JS Seiten geschrieben.
+          </div>
+        </div>
+
         <!-- Indicators -->
         <ol class="carousel-indicators">
           <li data-target="#langCarousel" data-slide-to="0" class="active"></li>
@@ -694,96 +785,13 @@
           <li data-target="#langCarousel" data-slide-to="11"></li>
         </ol>
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-          <div class="item active">
-            <h3>Assembler</h3>
-            Level: Grundkenntnisse<br />
-            Ich habe früh Assembler gelernt, und gelegentlich kleinere Programme
-            geschrieben, z.B. einen Brainfuck-Interpreter in &lt;100 Byte.
-          </div>
-          <div class="item">
-            <h3>C</h3>
-            Level: Beginner<br />
-            Ich habe selten C-Code angepasst aber noch kaum Schmerzen erfahren.
-          </div>
-          <div class="item">
-            <h3>Elixir</h3>
-            Level: Fortgeschritten<br />
-            Ich habe etwa 2 Jahre produktiv mit Elixir gearbeitet.
-          </div>
-          <div class="item">
-            <h3>Erlang</h3>
-            Level: Beginner<br />
-            Ich habe es mal gelernt und einfache kleine Programme geschrieben.
-            Bei der Arbeit mit Elixir bin ich gelegentlich darauf gestoßen.
-          </div>
-          <div class="item">
-            <h3>Haskell</h3>
-            Level: Grundkenntnisse<br />
-            Ich habe ein paar Semester Übungsgruppen zu Grundlagenvorlesungen
-            geleitet und hier mit Haskell programmiert.
-          </div>
-          <div class="item">
-            <h3>Java</h3>
-            Level: Fortgeschritten (Java 7)<br />
-            Ich habe einige Jahre überwiegend mit Java programmiert,
-            Projektgröße: wenige Wochen. Z.B. Schachspiel, Piet-Editor und
-            Interpreter, Datenanalysen und Visualisierung.
-          </div>
-          <div class="item">
-            <h3>Matlab/Octave</h3>
-            Level: Grundkenntnisse<br />
-            In einigen Unikursen habe ich mit Matlab/Octave programmiert.
-          </div>
-          <div class="item">
-            <h3>Python</h3>
-            Level: Experte<br />
-            Ich habe etwa 3 Jahre mit Python entwickelt und geforscht. Mit
-            Pandas, Keras, scikit-learn und Jupyter bin ich vertraut.
-          </div>
-          <div class="item">
-            <h3>QBasic</h3>
-            Level: Fortgeschritten<br />
-            Mit QBasic habe ich das Programmieren gelernt, und einige tausend
-            kleine Programme geschrieben.
-          </div>
-          <div class="item">
-            <h3>SQL</h3>
-            Level: Fortgeschritten<br />
-            SQL ist irgendwie immer mit dabei, ich kann damit umgehen.
-          </div>
-          <div class="item">
-            <h3>SVG</h3>
-            Level: Grundkenntnisse<br />
-            Ich habe ein paar animierte Visualisierungen mit SVG erstellt.
-          </div>
-          <div class="item">
-            <h3>Typescript/Javascript</h3>
-            Level: Experte<br />
-            Ich habe mehrere Jahre im Kontext von Angular und React SPAs mit Typescript entwickelt, aber auch einige Vanilla-JS Seiten geschrieben.
-          </div>
-        </div>
-
         <!-- Left and right controls -->
-        <a
-          class="left carousel-control"
-          href="#langCarousel"
-          role="button"
-          data-slide="prev"
-        >
-          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
-          </span>
+        <a class="left carousel-control" href="#langCarousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"> </span>
           <span class="sr-only">Previous</span>
         </a>
-        <a
-          class="right carousel-control"
-          href="#langCarousel"
-          role="button"
-          data-slide="next"
-        >
-          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true">
-          </span>
+        <a class="right carousel-control" href="#langCarousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"> </span>
           <span class="sr-only">Next</span>
         </a>
       </div>
@@ -922,9 +930,7 @@
       <div>
         <p>Impressum:</p>
         <p><span class="glyphicon glyphicon-user"></span>Rafael Friesen</p>
-        <p>
-          <span class="glyphicon glyphicon-phone"></span> +49 151 50 594 594
-        </p>
+        <p><span class="glyphicon glyphicon-phone"></span> +49 151 50 594 594</p>
         <p>
           <span class="glyphicon glyphicon-envelope"></span>
           <span class="ctct">rafaelfriesen.de</span>
@@ -940,12 +946,7 @@
       $(document).ready(function () {
         $(".ctct").each(function () {
           $(this).text(function (index, text) {
-            return (
-              text.slice(0, 13) +
-              String.fromCodePoint(64) +
-              "arcor" +
-              text.slice(13)
-            );
+            return text.slice(0, 13) + String.fromCodePoint(64) + "arcor" + text.slice(13);
           });
         });
         // Add smooth scrolling to all links in navbar + footer link

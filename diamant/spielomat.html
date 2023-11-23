@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Der fliegende Diamant</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+      .bg-gray {
+        background-color: #ddc;
+      }
+
+
+      .dreieck {
+        stroke: #99AACC;
+        pointer-events: none;
+        stroke-linejoin: bevel;
+        transition: 1s;
+      }
+
+      @keyframes openYourHeart {from {r: 0} to {r: 60px}}
+      #myClip circle {
+        animation: openYourHeart 15s infinite;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray p-3">
+    <svg width="90%" viewBox="0 0 160 40">
+      <defs>
+        <pattern id="pattern1" height="100%" width="100%" patternContentUnits="objectBoundingBox">
+          <image height="1" width="1" preserveAspectRatio="none"
+                 xlink:href="https://pbs.twimg.com/profile_images/1188883075004096516/SsiqytBV_400x400.jpg" />
+        </pattern>
+      </defs>
+
+      <polygon points="50 10 70 10 40 40" id="sib5a" class="sib" fill="#00000000"/>
+      <polygon points="50 10 70 10 40 40" id="d5a" class="dreieck" fill="url(#pattern1)"/>
+    </svg>
+
+    <svg width="20vw" viewBox="0 0 100 100">
+      <clipPath id="myClip">
+        <!--
+          Everything outside the circle will be
+          clipped and therefore invisible.
+        -->
+        <circle cx="40" cy="35" r="35" />
+      </clipPath>
+
+      <!-- The original black heart, for reference -->
+      <path id="heart" d="M10,30 A20,20,0,0,1,50,30 A20,20,0,0,1,90,30 Q90,60,50,90 Q10,60,10,30 Z" />
+
+      <!--
+        Only the portion of the red heart
+        inside the clip circle is visible.
+      -->
+      <use clip-path="url(#myClip)" href="#heart" fill="red" />
+    </svg>
+
+  </body>
+  <div class="mt-5">
+    Spielomat (unfertig)
+  </div>
+</html>
