@@ -61,15 +61,24 @@
   <div id="infoBox" class="alert alert-info mt-3 d-none" role="alert">
     <div>
       <p>Hier kannst du neben Geburtstagen auch andere Jubiläen berechnen.</p>
-      <p>Gib in das Textfeld einfach Daten und dazugehörige Namen ein, z. B.</p>
+      <p>Gib in das Textfeld einfach Daten, optional eine Uhrzeit und dazugehörige Namen ein, z. B.</p>
       <p style="background-color: lightgray;">
-        <code>2016-12-22 Larry<br>2015-02-01 Lisa</code>
+        <code>2016-12-22 Larry<br>2015-02-01 12:34 Lisa</code>
       </p>
+      <p>Es ist wichtig, sich genau an das Format zu halten.</p>
       <p>Diese Eingaben merkt sich dein Browser, sie bleiben nur auf deinem Computer und werden aber nirgendwo anders
         hingeschickt.</p>
       <p>Dann kannst du ein Start- und ein End-Datum wählen.</p>
       <p>Alle Jubiläen in diesem Zeitraum werden aufgelistet, wenn du den Berechnen Button drückst.</p>
+      <p>Die Bedeutung der Farben: Je grüner, desto mehr halte ich die Zahl für besonders.
+        Z.B. 10 oder 100 ist grüner als 20 oder 200.</p>
       <p>Beachte: Je länger ein Datum her ist, desto seltener werden Jubiläen.</p>
+      <p> Wenn du keine Ergebnisse siehst, kannst du: </p>
+      <ul>
+        <li>den Zeitraum vergrößern</li>
+        <li>nachsehen ob du die Daten genau so angegeben hast wie im Beispiel</li>
+      </ul>
+      <p>Als Hilfestellung findest du nach erfolgter Berechnung gaanz unten alle erkannten Daten aufgelistet.</p>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <button type="button" class="btn btn-light" aria-label="Close" id="closeInfoBox">
@@ -82,11 +91,12 @@
   <!-- Eingabetextfeld -->
   <div class="mb-3">
     <label for="datesInput" class="form-label">
-      Daten eingeben (ein Datum und Name pro Zeile):
+      Daten eingeben, ein Datum (evtl. Zeit) und Name pro Zeile:
       <br>
-      Format: YYYY-MM-DD Name
+      Format 1: YYYY-MM-DD Name <br>
+      Format 2: YYYY-MM-DD HH:MM Name <br>
     </label>
-    <textarea class="form-control" id="datesInput" rows="5" placeholder="z. B. 2023-12-25&#10;2024-01-01"></textarea>
+    <textarea class="form-control" id="datesInput" rows="5" placeholder="z. B. &#10;2023-12-25 Name1&#10;2024-01-01 16:00 Name2"></textarea>
   </div>
 
   <!-- Eingabebereich für Start- und Enddatum -->
@@ -222,18 +232,24 @@
       // Inhalt des Textfelds abrufen und Zeilenweise aufsplitten
       const input = $('#datesInput').val();
       const lines = input.split('\n');
-      let parsedList = []; // Hier werden die Objekte gespeichert
+      let parsedList = []; // Hier werden die erkannten Daten gespeichert
+      let list = []; // Hier werden die Jubiläen gespeichert
 
       // Für jede Zeile verarbeiten
       lines.forEach((line, index) => {
         const trimmedLine = line.trim(); // Leerzeichen entfernen
-
-        // Regulärer Ausdruck für ein Datum gefolgt von einem Namen
-        const match = trimmedLine.match(/^(\d{4}-\d{2}-\d{2})(?:\s+(.*))?$/);
+        // Regulärer Ausdruck für ein Datum, eine optionale Uhrzeit und einen optionalen Namen
+        const match = trimmedLine.match(/^(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}:\d{2}))?(?:\s+(.*))?$/);
         if (match) {
           const dateStr = match[1]; // Das Datum
-          const name = match[2] || "Unbekannt"; // Der Name, wenn keiner angegeben, "Unbekannt" verwenden
-          const baseDate = new Date(dateStr); // Basisdatum als Date-Objekt
+          const timeStr = match[2] || "12:00"; // Die Uhrzeit, wenn keine angegeben, Standard "00:00"
+          const name = match[3] || "Unbekannt"; // Der Name, wenn keiner angegeben, "Unbekannt" verwenden
+
+          let baseDate = new Date(`${dateStr}Z${timeStr}`);
+          if (isNaN(baseDate)) baseDate = new Date(dateStr); // fallback ohne zeit
+
+          // So können wir die erkannten Daten zum überprüfen ausgeben
+          parsedList.push({baseDate, dateStr, timeStr: match[2], name: match[3]});
 
           if (!isNaN(baseDate)) { // Prüfen, ob das Datum korrekt geparst wurde
             offsets.forEach(offset => {
@@ -267,7 +283,7 @@
               }
 
               // Objekt erstellen und zur Liste hinzufügen
-              parsedList.push({
+              list.push({
                 originalLine: line,
                 name, // Name aus der Eingabezeile
                 originalTimestamp: baseDate.toISOString(),
@@ -285,7 +301,7 @@
       // Liste sortieren (nach `offsetTimestamp`)
       const byColor = $('#sortByColorsCheckbox').is(':checked');
       console.log({byColor});
-      parsedList.sort((a, b) => {
+      list.sort((a, b) => {
         if (byColor && a.weight !== b.weight) {
           return b.weight - a.weight;
         }
@@ -296,12 +312,12 @@
       const endDate = new Date($('#endDate').val()); // Enddatum auslesen (YYYY-MM-DD)
       console.log('Start-Datum:', startDate);
       console.log('End-Datum:', endDate);
-      const filteredList = parsedList.filter((item) =>
+      const filteredList = list.filter((item) =>
           (isNaN(startDate) || item.timestamp > startDate.getTime())
           && (isNaN(endDate) || item.timestamp < endDate.getTime())
       );
       if (filteredList.length > 0) {
-        parsedList = filteredList;
+        list = filteredList;
       }
 
       // Sortierte Liste anzeigen
@@ -315,15 +331,15 @@
         </div>
       `);
 
-      if (parsedList.length > 0) {
-        parsedList.forEach(item => {
+      if (list.length > 0) {
+        list.forEach(item => {
           outputDiv.append(`
             <div class="p-2 border border-secondary rounded mb-2 weight-${item.weight}">
               <!--h2>${item.name} ist ${item.offsetValue} ${item.offsetUnit} alt.</h2>
-              <h3>(am ${item.offsetTimestamp.replace('Z', '').replace('T00:00:00.000', '').replace('T', ' um ')})</h3-->
+              <h3>(am ${item.offsetTimestamp.replace('.000Z', '').replace('T00:00:00', '').replace('T', ' um ')})</h3-->
               <h2>
                 <b>${item.name}</b> ist
-                (am ${item.offsetTimestamp.replace('Z', '').replace('T00:00:00.000', '').replace('T', ' um ')})
+                (am ${item.offsetTimestamp.replace('.000Z', '').replace('T00:00:00', '').replace('T', ' um ')})
                 <b>${item.offsetValue} ${item.offsetUnit}</b> alt.
               </h2>
               <!--strong>Name:</strong> ${item.name}<br-->
@@ -338,6 +354,24 @@
       } else {
         outputDiv.append(`<div class="text-danger">Keine gültigen Daten gefunden. Schau dir das Format noch einmal an!</div>`);
       }
+
+      const parsedString = parsedList.map((item) => `
+        Name: <code style="background-color: lightgray;">${item.name}</code>
+        Datum: <code style="background-color: lightgray;">${item.dateStr}</code>
+        Zeit: <code style="background-color: lightgray;">${item.timeStr}</code>
+        <br>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">
+          ${item.baseDate.toISOString().replace('.000Z', '').replace('T00:00:00', '').replace('T', ' ')}
+        </code>
+      `)
+      //        <br>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">${item.baseDate.toISOString()}</code>
+
+      outputDiv.append(`
+        <div class="text-italic">
+          <p>Erkannt:</p>
+          ${parsedString.join('<br><br>')}
+        </div>
+      `);
+
     };
     $('#parseButton').on('click', calculate);
     $('#sortByColorsCheckbox').on('change', calculate);
