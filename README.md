@@ -1,4 +1,1 @@
-I forked this theme from **[Moon](https://taylantatli.github.io/Moon)** – a minimal, one column jekyll theme.
-
-When I have the time and this gets more priority I will modify it.
-
+This is a random selection of ones and zeroes, handpicked and ordered by Rafael Friesen.

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team &#8211; Rafael Friesen</title>
+  <meta
+    content="Das ist das Team von Rafael Friesen. Breit aufgestellt und bereit, jede Herausforderung anzugehen."
+    name="description">
+  <link href="/team/" rel="canonical">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="/favicon.png" rel="shortcut icon" type="image/png"/>
+  <link href="/favicon.ico" rel="shortcut icon"/>
+  <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+    crossorigin="anonymous">
+
+  <style>
+    /* Background Image */
+    body {
+      min-height: 100vh;
+      background-image: url(/assets/img/background.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    h1 {
+      /*font-size: 48pt;*/
+    }
+
+    #main-container {
+      background-color: rgba(255, 255, 255, 0.7);
+      margin-top: 5vh;
+      width: 90vw;
+    }
+
+    @media (min-width: 768px) {
+      #main-container {
+        width: 85vw;
+      }
+    }
+
+    @media (min-width: 992px) {
+      #main-container {
+        /*width: 70vw;*/
+      }
+    }
+
+    @media (min-width: 1200px) {
+      #main-container {
+        /*width: 60vw;*/
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: #2e6da4;
+    }
+
+    i.fa {
+      color: #3c763d;
+      font-size: 1.6em;
+    }
+
+    .btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      line-height: unset;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    .team-card {
+      padding: 2em 0;
+      overflow: hidden;
+
+      img {
+        height: 200px;
+
+      }
+    }
+
+    .modal {
+      --bs-modal-bg: rgba(255, 255, 255, 0.85);
+      --bs-modal-width: 90vw;
+    }
+
+    .modal-body {
+      img {
+        max-height: 50vh;
+        margin-bottom: 1em;
+      }
+      a {
+        font-weight: bold;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+<div id="main-container" class="container text-center p-4 p-md-5">
+  <div class="row">
+    <div class="col-12 px-auto align-middle">
+      <h1>
+        <a class="btn m-1" href="/privat/">
+          <i class="fa fa-chevron-left"></i>
+        </a>
+        Mein Team
+      </h1>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(1)">
+      <img
+        src="/assets/img/me/rafael-neutral-small.jpg"
+        title="Hier laufen alle Fäden zusammen"/>
+      <br>
+      <b>Chef:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(2)">
+      <img
+        src="/assets/img/me/rafael-education-small.jpg"
+        title="Ich liebe es, Leuten von Dingen zu erzählen, die sie noch nicht kennen."/>
+      <br>
+      <b>Lernen und Lehren:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(3)">
+      <img
+        src="/assets/img/me/rafael-fun-small.jpg"
+        title="Mein Humor ist unberechenbar, und das Spektrum breit."/>
+      <br>
+      <b>Entertainment:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(4)">
+      <img
+        src="/assets/img/me/rafael-child-small.jpg"
+        title="Ich komme aus der Vergangenheit um die Zukunft zu gestalten."/>
+      <br>
+      <b>Zeitreisen und Geschichte:</b><br>
+      <i>Rafi</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(5)">
+      <img
+        src="/assets/img/me/rafael-musik-small.jpg"
+        title="Ich mache gern Musik mit allem, was Töne macht."/>
+      <br>
+      <b>Musik:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(6)">
+
+      <img
+        src="/assets/img/me/rafael-philosophy-small.jpg"
+        title="All diese Dinge zwischen Himmel und Erde."/>
+      <br>
+      <b>Philosophie und Religion:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(7)">
+      <img
+        src="/assets/img/me/rafael-science-small.jpg"
+        title="Ständig neue Ideen. Mal sinnvoll, mal nicht so, aber Langeweile kenne ich nicht."/>
+      <br>
+      <b>Forschung und Wissenschaft:</b><br>
+      <i>Rafael Friesen, M. Sc. </i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(8)">
+      <img
+        src="/assets/img/me/rafael-family-small.jpg"
+        title="Meine Familie bereitet mir viel Freude."/>
+      <br>
+      <b>Vater:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(9)">
+      <img src="/assets/img/me/rafael-relaxing-small.jpg" title="Wenn dann mal Zeit übrig ist."/>
+      <br>
+      <b>Freizeit und Hobbies:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(10)">
+      <img
+        src="/assets/img/me/rafael-sports-small.jpg"
+        title="Körperliche Ertüchtigung im Rahmen des möglichen."/>
+      <br>
+      <b>Sport:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(11)">
+      <img src="/assets/img/me/rafael-blond-small.jpg" title="Visuelles aller art."/>
+      <br>
+      <b>Frontend und Bilder:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(12)">
+      <img src="/assets/img/me/rafael-hat-small.jpg" title="Wenn großes Geld verschoben wird."/>
+      <br>
+      <b>Immobilien und Spekulationen:</b><br>
+      <i>Rafael Friesen</i>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          <span id="modal-title-0">Modal title</span>
+          <span id="modal-title-1" class="d-none">Ich bin hier der Chef</span>
+          <span
+            id="modal-title-2"
+            class="d-none">Ich lerne und Lehre gerne</span>
+          <span id="modal-title-3" class="d-none">Mein Humor ist unberechenbar, und das Spektrum breit</span>
+          <span id="modal-title-4" class="d-none">Ich komme aus der Vergangenheit um die Zukunft zu gestalten</span>
+          <span id="modal-title-5" class="d-none">Ich mache gern Musik mit allem, was Töne macht</span>
+          <span id="modal-title-6" class="d-none">All diese Dinge zwischen Himmel und Erde</span>
+          <span id="modal-title-7" class="d-none">Ständig neue Ideen. Mal sinnvoll, mal nicht so, aber Langeweile kenne ich nicht</span>
+          <span id="modal-title-8" class="d-none">Meine Familie bereitet mir viel Freude</span>
+          <span id="modal-title-9" class="d-none">Wenn dann mal Zeit übrig ist</span>
+          <span id="modal-title-10" class="d-none">Körperliche Ertüchtigung im Rahmen des möglichen</span>
+          <span id="modal-title-11" class="d-none">Visuelles aller art</span>
+          <span id="modal-title-12" class="d-none">Wenn großes Geld verschoben wird</span>
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen" style="font-size:24px">
+        </button>
+      </div>
+
+      <div id="modal-body-0" class="modal-body">
+        Test body
+      </div>
+      <div id="modal-body-1" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-neutral-large.jpg"
+          title="Hier laufen alle Fäden zusammen"/>
+        <br>
+      </div>
+      <div id="modal-body-2" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-education-large.jpg"
+          title="Ich liebe es, Leuten von Dingen zu erzählen, die sie noch nicht kennen."/>
+        <br>
+      </div>
+      <div id="modal-body-3" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-fun-large.jpg"
+          title="Mein Humor ist unberechenbar, und das Spektrum breit."/>
+        <br>
+        <p>Mein Intenethumor:</p>
+        <p>xkcd, smbc, Nichtlustig, Ruthe, Memes.</p>
+      </div>
+      <div id="modal-body-4" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-child-large.jpg"
+          title="Ich komme aus der Vergangenheit um die Zukunft zu gestalten."/>
+        <br>
+        <p>Ich war mal kleiner und dachte, dass ich ALLES lernen könnte.</p>
+        <p>Heute bin ich größer, und denke, dass ich alles LERNEN kann.</p>
+      </div>
+      <div id="modal-body-5" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-musik-large.jpg"
+          title="Ich mache gern Musik mit allem, was Töne macht."/>
+        <br>
+        <p>Auf dem Bild spiele ich gerade Otamaton.</p>
+        <p>
+          Mit
+          <a class="fw-bold" href="/caustic/"> Caustic </a>
+          habe ich etwas elektronische Musik gemacht.
+        </p>
+      </div>
+      <div id="modal-body-6" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-philosophy-large.jpg"
+          title="All diese Dinge zwischen Himmel und Erde."/>
+        <br>
+        <p>Ich liebe es, neue Sichtweisen kennen zu lernen und Missverständnisse auszuräumen.</p>
+        <p>
+          Ich habe schon gegensätzliche Positionen vertreten und bin Freund davon, Argumentationen nachzuvollziehen, die
+          ich selbst nicht vertrete.
+        </p>
+      </div>
+      <div id="modal-body-7" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-science-large.jpg"
+          title="Ständig neue Ideen. Mal sinnvoll, mal nicht so, aber Langeweile kenne ich nicht."/>
+        <br>
+        <p>Ein paar Jahre habe ich als wissenschaftlicher Mitarbeiter an der Uni Magdeburg verbracht.</p>
+        <p>Auch naturwissenschaftliche Experimente mache ich seit meiner Kindheit.</p>
+      </div>
+      <div id="modal-body-8" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-family-large.jpg"
+          title="Meine Familie bereitet mir viel Freude."/>
+        <br>
+        <p>Ein Erziehungsratschlag (zur Geburt unseres Sohnes) von meinem Vater: “Wir haben unsere Fehler gemacht, jetzt dürft ihr eure machen.”</p>
+      </div>
+      <div id="modal-body-9" class="modal-body text-center">
+        <img src="/assets/img/me/rafael-relaxing-large.jpg" title="Wenn dann mal Zeit übrig ist."/>
+        <br>
+        <p>Wenn ich mal Zeit für so etwas habe, dann schreibe ich es hier hin ;-)</p>
+        <p>Der Trend geht in die richtige Richtung!</p>
+      </div>
+      <div id="modal-body-10" class="modal-body text-center">
+        <img
+          src="/assets/img/me/rafael-sports-large.jpg"
+          title="Körperliche Ertüchtigung im Rahmen des möglichen."/>
+        <br>
+        <p>Ein Bild aus alten Zeiten:</p>
+        <img src="/assets/img/me/transformer.gif" alt="Ich war mal richtig in Form" title="3 Jahre Bodybuilding">
+      </div>
+      <div id="modal-body-11" class="modal-body text-center">
+        <img src="/assets/img/me/rafael-blond-large.jpg" title="Visuelles aller art."/>
+        <br>
+        <p>Hier geht es zu meinem <a href="https://shop.spreadshirt.de/00dingens">Spreadshird Shop</a></p>
+      </div>
+      <div id="modal-body-12" class="modal-body text-center">
+        <img src="/assets/img/me/rafael-hat-large.jpg" title="Wenn großes Geld verschoben wird."/>
+        <br>
+        <p>Ich habe ein Haus gebaut und mit Kryptokram spekuliert</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn" data-bs-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+  crossorigin="anonymous"></script>
+<script>
+  function toggleModal(index) {
+    ['title', 'body'].forEach(element => {
+      for (let i = 0; i <= 15; i++) {
+        const elem = document.getElementById(`modal-${element}-${i}`);
+        if (elem) {
+          if (index === i) {
+            elem.classList.remove('d-none');
+            elem.classList.add('d-block');
+          } else {
+            elem.classList.add('d-none');
+            elem.classList.remove('d-block');
+          }
+        }
+      }
+    });
+    const myModal = new bootstrap.Modal('#modal');
+    const modalToggle = document.getElementById('modal');
+    myModal.show(modalToggle);
+  }
+</script>
+</body>
+</html>
