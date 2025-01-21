@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="Wann bist du 100000 Stunden alt? Berechne hier die nächsten interessanten Jubiläen!">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Option 1: Include in HTML -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <title>Alter</title>
+  <style>
+    /* Optional: Zusätzliche Anpassung für das Info-Icon */
+    #infoIcon {
+      font-size: 1.25rem; /* Icon-Größe */
+    }
+
+    .weight-100 {
+      background-color: #8fa;
+    }
+
+    .weight-90 {
+      background-color: #8d8;
+    }
+
+    .weight-80 {
+      background-color: #8c6;
+    }
+
+    .weight-70 {
+      background-color: #8a6;
+    }
+
+    .weight-65 {
+      background-color: #896;
+    }
+
+    .weight-60 {
+      background-color: #886;
+    }
+
+    .weight-55 {
+      background-color: #776;
+    }
+
+    .weight-50 {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-4">
+  <div class="d-flex align-items-center flex-row mb-4">
+    <h1>Jubiläen</h1>
+    <i id="infoIcon" class="ms-2 bi bi-info-circle text-primary" style="cursor: pointer;"
+       title="Mehr Informationen"></i>
+  </div>
+
+  <!-- Infobox -->
+  <div id="infoBox" class="alert alert-info mt-3 d-none" role="alert">
+    <div>
+      <p>Hier kannst du neben Geburtstagen auch andere Jubiläen berechnen.</p>
+      <p>Gib in das Textfeld einfach Daten und dazugehörige Namen ein, z. B.</p>
+      <p style="background-color: lightgray;">
+        <code>2016-12-22 Larry<br>2015-02-01 Lisa</code>
+      </p>
+      <p>Diese Eingaben merkt sich dein Browser, sie bleiben nur auf deinem Computer und werden aber nirgendwo anders
+        hingeschickt.</p>
+      <p>Dann kannst du ein Start- und ein End-Datum wählen.</p>
+      <p>Alle Jubiläen in diesem Zeitraum werden aufgelistet, wenn du den Berechnen Button drückst.</p>
+      <p>Beachte: Je länger ein Datum her ist, desto seltener werden Jubiläen.</p>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <button type="button" class="btn btn-light" aria-label="Close" id="closeInfoBox">
+        <i class="bi-x"></i>
+        Schließen
+      </button>
+    </div>
+  </div>
+
+  <!-- Eingabetextfeld -->
+  <div class="mb-3">
+    <label for="datesInput" class="form-label">
+      Daten eingeben (ein Datum und Name pro Zeile):
+      <br>
+      Format: YYYY-MM-DD Name
+    </label>
+    <textarea class="form-control" id="datesInput" rows="5" placeholder="z. B. 2023-12-25&#10;2024-01-01"></textarea>
+  </div>
+
+  <!-- Eingabebereich für Start- und Enddatum -->
+  <div class="row">
+    <div class="col-12 col-sm-6 mb-3">
+      <label for="startDate" class="form-label">Start-Datum:</label>
+      <input type="date" class="form-control" id="startDate" placeholder="Startdatum auswählen">
+    </div>
+    <div class="col-12 col-sm-6 mb-3">
+      <label for="endDate" class="form-label">End-Datum:</label>
+      <input type="date" class="form-control" id="endDate" placeholder="Enddatum auswählen">
+    </div>
+  </div>
+
+  <!-- Checkbox und Button -->
+  <div class="d-flex justify-content-center align-items-center mt-3">
+
+    <!-- Button zum Parsen -->
+    <button id="parseButton" class="btn btn-primary me-3">Berechnen</button>
+
+    <!-- Checkbox -->
+    <div class="form-check me-3">
+      <input class="form-check-input" type="checkbox" id="sortByColorsCheckbox">
+      <label class="form-check-label" for="sortByColorsCheckbox">
+        Nach Farben sortieren
+      </label>
+    </div>
+
+  </div>
+
+  <!-- Ergebnisbereich -->
+  <h2 class="mt-4">Ergebnis:</h2>
+  <div id="output" class="mt-3">
+    <!-- Generierte DIVs werden hier angefügt -->
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script
+    src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+    crossorigin="anonymous"></script>
+
+<script>
+  const units = ['Jahre', 'Monate', 'Wochen', 'Tage', 'Stunden', null, 'Minuten', null, 'Sekunden'];
+  const prefix = [
+    {value: 1, weight: 100},
+    {value: 2, weight: 90},
+    {value: 5, weight: 80},
+    {value: 3, weight: 70},
+    {value: 4, weight: 70},
+    {value: 6, weight: 70},
+    {value: 7, weight: 70},
+    {value: 8, weight: 70},
+    {value: 9, weight: 70},
+    {value: 15, weight: 60},
+    {value: 25, weight: 60},
+    {value: 75, weight: 55},
+    {value: 35, weight: 50},
+    {value: 45, weight: 50},
+    {value: 55, weight: 50},
+    {value: 65, weight: 50},
+    {value: 85, weight: 50},
+    {value: 95, weight: 50},
+  ];
+  const offsets = [];
+  units.forEach((unit, uindex) => {
+    if (unit) {
+      prefix.forEach((prefix, pindex) => {
+        let acc = 0;
+        for (let i = 0; i < 2 + uindex; i++) {
+          offsets.push({
+            value: prefix.value * Math.pow(10, i),
+            weight: prefix.weight,
+            unit: unit
+          });
+          if (prefix.value < 10) {
+            acc += prefix.value * Math.pow(10, i);
+            if (i > 0) {
+              offsets.push({
+                value: acc,
+                weight: 65,
+                unit: unit
+              });
+            }
+          }
+        }
+      });
+    }
+  });
+
+
+  $(document).ready(function () {
+
+    // Info-Icon anklicken: Infobox anzeigen oder ausblenden
+    $('#infoIcon').on('click', function () {
+      $('#infoBox').toggleClass('d-none'); // Infobox sichtbar machen
+    });
+
+    // Schließen-Button anklicken: Infobox ausblenden
+    $('#closeInfoBox').on('click', function () {
+      $('#infoBox').addClass('d-none'); // Infobox ausblenden
+    });
+
+    // Key für den Local Storage
+    const localStorageKey = 'datesInput';
+    // Daten aus dem Local Storage holen und ins Eingabefeld setzen, falls vorhanden
+    const savedData = localStorage.getItem(localStorageKey);
+    if (savedData) {
+      $('#datesInput').val(savedData);
+    }
+    // Änderungen am Eingabefeld speichern
+    $('#datesInput').on('input', function () {
+      const currentValue = $(this).val(); // Aktuellen Inhalt des Textfelds abrufen
+      localStorage.setItem(localStorageKey, currentValue); // Im Local Storage speichern
+    });
+
+    // Default daten: letzte Woche und die nächsten zwei Wochen
+    // const startDate = new Date();
+    // startDate.setDate(startDate.getDate() - 7);
+    // const endDate = new Date();
+    // endDate.setDate(endDate.getDate() + 14);
+    // Default daten: dieses Jahr
+    const startDate = new Date(new Date().getFullYear(), 0, 1, 12);
+    const endDate = new Date(new Date().getFullYear(), 11, 31, 12);
+
+    $('#startDate').val(startDate.toISOString().substring(0, 10));
+    $('#endDate').val(endDate.toISOString().substring(0, 10));
+
+    const calculate = function () {
+      // Inhalt des Textfelds abrufen und Zeilenweise aufsplitten
+      const input = $('#datesInput').val();
+      const lines = input.split('\n');
+      let parsedList = []; // Hier werden die Objekte gespeichert
+
+      // Für jede Zeile verarbeiten
+      lines.forEach((line, index) => {
+        const trimmedLine = line.trim(); // Leerzeichen entfernen
+
+        // Regulärer Ausdruck für ein Datum gefolgt von einem Namen
+        const match = trimmedLine.match(/^(\d{4}-\d{2}-\d{2})(?:\s+(.*))?$/);
+        if (match) {
+          const dateStr = match[1]; // Das Datum
+          const name = match[2] || "Unbekannt"; // Der Name, wenn keiner angegeben, "Unbekannt" verwenden
+          const baseDate = new Date(dateStr); // Basisdatum als Date-Objekt
+
+          if (!isNaN(baseDate)) { // Prüfen, ob das Datum korrekt geparst wurde
+            offsets.forEach(offset => {
+              const offsetDate = new Date(baseDate); // Basisdatum kopieren
+
+              // Offset nach Einheit hinzufügen
+              switch (offset.unit) {
+                case 'Jahre':
+                  offsetDate.setFullYear(offsetDate.getFullYear() + offset.value);
+                  break;
+                case 'Monate':
+                  offsetDate.setMonth(offsetDate.getMonth() + offset.value);
+                  break;
+                case 'Wochen':
+                  offsetDate.setDate(offsetDate.getDate() + 7 * offset.value);
+                  break;
+                case 'Tage':
+                  offsetDate.setDate(offsetDate.getDate() + offset.value);
+                  break;
+                case 'Stunden':
+                  offsetDate.setHours(offsetDate.getHours() + offset.value);
+                  break;
+                case 'Minuten':
+                  offsetDate.setMinutes(offsetDate.getMinutes() + offset.value);
+                  break;
+                case 'Sekunden':
+                  offsetDate.setSeconds(offsetDate.getSeconds() + offset.value);
+                  break;
+                default:
+                  console.error(`Ungültige Einheit: ${offset.unit}`);
+              }
+
+              // Objekt erstellen und zur Liste hinzufügen
+              parsedList.push({
+                originalLine: line,
+                name, // Name aus der Eingabezeile
+                originalTimestamp: baseDate.toISOString(),
+                offsetValue: offset.value,
+                offsetUnit: offset.unit,
+                weight: offset.weight,
+                offsetTimestamp: offsetDate.toISOString(),
+                timestamp: offsetDate.getTime(),
+              });
+            });
+          }
+        }
+      });
+
+      // Liste sortieren (nach `offsetTimestamp`)
+      const byColor = $('#sortByColorsCheckbox').is(':checked');
+      console.log({byColor});
+      parsedList.sort((a, b) => {
+        if (byColor && a.weight !== b.weight) {
+          return b.weight - a.weight;
+        }
+        return new Date(a.offsetTimestamp) - new Date(b.offsetTimestamp);
+      });
+
+      const startDate = new Date($('#startDate').val()); // Startdatum auslesen (YYYY-MM-DD)
+      const endDate = new Date($('#endDate').val()); // Enddatum auslesen (YYYY-MM-DD)
+      console.log('Start-Datum:', startDate);
+      console.log('End-Datum:', endDate);
+      const filteredList = parsedList.filter((item) =>
+          (isNaN(startDate) || item.timestamp > startDate.getTime())
+          && (isNaN(endDate) || item.timestamp < endDate.getTime())
+      );
+      if (filteredList.length > 0) {
+        parsedList = filteredList;
+      }
+
+      // Sortierte Liste anzeigen
+      const outputDiv = $('#output');
+      outputDiv.empty(); // Bestehende Inhalte entfernen
+
+      outputDiv.append(`
+        <div class="text-italic">
+          <p class="mb-0">Start: ${isNaN(startDate) ? 'Ungültig' : startDate.toISOString().substring(0, 10)}</p>
+          <p>Ende: ${isNaN(endDate) ? 'Ungültig' : endDate.toISOString().substring(0, 10)}</p>
+        </div>
+      `);
+
+      if (parsedList.length > 0) {
+        parsedList.forEach(item => {
+          outputDiv.append(`
+            <div class="p-2 border border-secondary rounded mb-2 weight-${item.weight}">
+              <!--h2>${item.name} ist ${item.offsetValue} ${item.offsetUnit} alt.</h2>
+              <h3>(am ${item.offsetTimestamp.replace('Z', '').replace('T00:00:00.000', '').replace('T', ' um ')})</h3-->
+              <h2>
+                <b>${item.name}</b> ist
+                (am ${item.offsetTimestamp.replace('Z', '').replace('T00:00:00.000', '').replace('T', ' um ')})
+                <b>${item.offsetValue} ${item.offsetUnit}</b> alt.
+              </h2>
+              <!--strong>Name:</strong> ${item.name}<br-->
+              <strong>Originale Zeile:</strong> ${item.originalLine}<br>
+              <!--strong>Zeitstempel:</strong> ${item.originalTimestamp}<br-->
+              <!--strong>Offset:</strong> ${item.offsetValue} ${item.offsetUnit}<br-->
+              <!--strong>Zeitstempel mit Offset:</strong> ${item.offsetTimestamp}<br-->
+              <!--strong>Gewichtung:</strong> ${item.weight}-->
+            </div>
+          `);
+        });
+      } else {
+        outputDiv.append(`<div class="text-danger">Keine gültigen Daten gefunden. Schau dir das Format noch einmal an!</div>`);
+      }
+    };
+    $('#parseButton').on('click', calculate);
+    $('#sortByColorsCheckbox').on('change', calculate);
+  });
+</script>
+
+
+</body>
+</html>
