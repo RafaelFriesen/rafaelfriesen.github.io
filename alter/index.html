@@ -61,7 +61,7 @@
   <div id="infoBox" class="alert alert-info mt-3 d-none" role="alert">
     <div>
       <p>Hier kannst du neben Geburtstagen auch andere Jubiläen berechnen.</p>
-      <p>Gib in das Textfeld einfach Daten, optional eine Uhrzeit und dazugehörige Namen ein, z. B.</p>
+      <p>Gib in das Textfeld einfach Geburtsdaten, optional eine Uhrzeit und dazugehörige Namen ein, z. B.</p>
       <p style="background-color: lightgray;">
         <code>2016-12-22 Larry<br>2015-02-01 12:34 Lisa</code>
       </p>
@@ -73,12 +73,9 @@
       <p>Die Bedeutung der Farben: Je grüner, desto mehr halte ich die Zahl für besonders.
         Z.B. 10 oder 100 ist grüner als 20 oder 200.</p>
       <p>Beachte: Je länger ein Datum her ist, desto seltener werden Jubiläen.</p>
-      <p> Wenn du keine Ergebnisse siehst, kannst du: </p>
-      <ul>
-        <li>den Zeitraum vergrößern</li>
-        <li>nachsehen ob du die Daten genau so angegeben hast wie im Beispiel</li>
-      </ul>
-      <p>Als Hilfestellung findest du nach erfolgter Berechnung gaanz unten alle erkannten Daten aufgelistet.</p>
+      <p>Wenn du keine Ergebnisse siehst, kannst du nachsehen, ob du die Daten genau so angegeben hast wie im Beispiel.
+        Als Hilfestellung findest du nach erfolgter Berechnung gaanz unten alle erkannten Daten aufgelistet.</p>
+      <p>Wenn das Programm im Zeitraum keine Jubiläen findet, vergrößert es den Zeitraum bis es was findet.</p>
     </div>
     <div class="d-flex justify-content-center mt-3">
       <button type="button" class="btn btn-light" aria-label="Close" id="closeInfoBox">
@@ -308,17 +305,36 @@
         return new Date(a.offsetTimestamp) - new Date(b.offsetTimestamp);
       });
 
-      const startDate = new Date($('#startDate').val()); // Startdatum auslesen (YYYY-MM-DD)
-      const endDate = new Date($('#endDate').val()); // Enddatum auslesen (YYYY-MM-DD)
+      let startDate = new Date($('#startDate').val()); // Startdatum auslesen (YYYY-MM-DD)
+      let endDate = new Date($('#endDate').val()); // Enddatum auslesen (YYYY-MM-DD)
       console.log('Start-Datum:', startDate);
       console.log('End-Datum:', endDate);
-      const filteredList = list.filter((item) =>
+      // Erst nur den Zeitraum testen
+      let filteredList = list.filter((item) =>
           (isNaN(startDate) || item.timestamp > startDate.getTime())
           && (isNaN(endDate) || item.timestamp < endDate.getTime())
       );
-      if (filteredList.length > 0) {
-        list = filteredList;
+      // Wenn nichts gefunden, Zeitraum um 10 Jahre verlängern
+      if (filteredList.length === 0) {
+        endDate.setFullYear(endDate.getFullYear() + 10);
+        filteredList = list.filter((item) =>
+            (isNaN(startDate) || item.timestamp > startDate.getTime())
+            && (isNaN(endDate) || item.timestamp < endDate.getTime())
+        );
       }
+      // Wenn nichts gefunden, Ende weg
+      if (filteredList.length === 0) {
+        endDate = new Date(list[list.length-1].offsetTimestamp);
+        filteredList = list.filter((item) =>
+            (isNaN(startDate) || item.timestamp > startDate.getTime())
+        );
+      }
+      // Wenn nichts gefunden, Start weg
+      if (filteredList.length === 0) {
+        startDate = new Date(list[0].originalTimestamp);
+        filteredList = list;
+      }
+      list = filteredList;
 
       // Sortierte Liste anzeigen
       const outputDiv = $('#output');
