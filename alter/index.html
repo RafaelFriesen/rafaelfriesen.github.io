@@ -245,7 +245,7 @@
           const timeStr = match[2] || "12:00"; // Die Uhrzeit, wenn keine angegeben, Standard "00:00"
           const name = match[3] || "Unbekannt"; // Der Name, wenn keiner angegeben, "Unbekannt" verwenden
 
-          let baseDate = new Date(`${dateStr}Z${timeStr}`);
+          let baseDate = new Date(`${dateStr}T${timeStr}:00.000Z`);
           if (isNaN(baseDate)) baseDate = new Date(dateStr); // fallback ohne zeit
 
           // So können wir die erkannten Daten zum überprüfen ausgeben
