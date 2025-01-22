@@ -88,7 +88,7 @@
   <!-- Eingabetextfeld -->
   <div class="mb-3">
     <label for="datesInput" class="form-label">
-      Daten eingeben, ein Datum (evtl. Zeit) und Name pro Zeile:
+      Hier Geburtsdaten eingeben: Ein Datum (evtl. Zeit) und Name pro Zeile:
       <br>
       Format 1: YYYY-MM-DD Name <br>
       Format 2: YYYY-MM-DD HH:MM Name <br>
@@ -166,7 +166,7 @@
     if (unit) {
       prefix.forEach((prefix, pindex) => {
         let acc = 0;
-        for (let i = 0; i < 2 + uindex; i++) {
+        for (let i = 0; i < 3 + uindex; i++) {
           offsets.push({
             value: prefix.value * Math.pow(10, i),
             weight: prefix.weight,
