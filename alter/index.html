@@ -51,8 +51,8 @@
 </head>
 <body>
 <div class="container mt-4">
-  <div class="d-flex align-items-center flex-row mb-4">
-    <h1>Jubiläen</h1>
+  <div class="d-flex align-items-center flex-row mb-4" style="vertical-align: baseline;">
+    <h1>Alter</h1>
     <i id="infoIcon" class="ms-2 bi bi-info-circle text-primary" style="cursor: pointer;"
        title="Mehr Informationen"></i>
   </div>
@@ -336,10 +336,10 @@
           outputDiv.append(`
             <div class="p-2 border border-secondary rounded mb-2 weight-${item.weight}">
               <!--h2>${item.name} ist ${item.offsetValue} ${item.offsetUnit} alt.</h2>
-              <h3>(am ${item.offsetTimestamp.replace('.000Z', '').replace('T00:00:00', '').replace('T', ' um ')})</h3-->
+              <h3>(am ${item.offsetTimestamp.replace('.000Z', '').replace('T', ' um ')})</h3-->
               <h2>
                 <b>${item.name}</b> ist
-                (am ${item.offsetTimestamp.replace('.000Z', '').replace('T00:00:00', '').replace('T', ' um ')})
+                (am ${item.offsetTimestamp.replace('.000Z', '').replace('T', ' um ')})
                 <b>${item.offsetValue} ${item.offsetUnit}</b> alt.
               </h2>
               <!--strong>Name:</strong> ${item.name}<br-->
@@ -360,7 +360,7 @@
         Datum: <code style="background-color: lightgray;">${item.dateStr}</code>
         Zeit: <code style="background-color: lightgray;">${item.timeStr}</code>
         <br>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">
-          ${item.baseDate.toISOString().replace('.000Z', '').replace('T00:00:00', '').replace('T', ' ')}
+          ${item.baseDate.toISOString().replace('.000Z', '').replace('T', ' ')}
         </code>
       `)
       //        <br>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">${item.baseDate.toISOString()}</code>
