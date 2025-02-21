@@ -18986,9 +18986,9 @@
                 /**
     `finally` will be invoked regardless of the promise's fate just as native
     try/catch/finally behaves
-  
+
     Synchronous example:
-  
+
     ```js
     findAuthor() {
       if (Math.random() > 0.5) {
@@ -18996,7 +18996,7 @@
       }
       return new Author();
     }
-  
+
     try {
       return findAuthor(); // succeed or fail
     } catch(error) {
@@ -19006,9 +19006,9 @@
       // doesn't affect the return value
     }
     ```
-  
+
     Asynchronous example:
-  
+
     ```js
     findAuthor().catch(function(reason){
       return findOtherAuther();
@@ -19016,7 +19016,7 @@
       // author was either found, or not
     });
     ```
-  
+
     @method finally
     @param {Function} callback
     @return {Promise}
@@ -21272,7 +21272,7 @@
                 'ay',
                 'bo',
                 'cgg',
-                'fa',
+                'FontAwesome',
                 'id',
                 'ja',
                 'jbo',
@@ -22946,7 +22946,7 @@
                       'hbo',
                       'men',
                       'xmn',
-                      'fa',
+                      'FontAwesome',
                       'jpr',
                       'peo',
                       'pes',
@@ -32150,7 +32150,7 @@
                 28: 'lv',
                 29: 'se',
                 30: 'fo',
-                31: 'fa',
+                31: 'FontAwesome',
                 32: 'ru',
                 33: 'zh',
                 34: 'nl-BE',
@@ -49702,13 +49702,13 @@
     * Specifies the number of frames to be displayed every second. For example,
     * the function call frameRate(30) will attempt to refresh 30 times a second.
     * If the processor is not fast enough to maintain the specified rate, the
-    * frame rate will not be achieved. Setting the frame rate within 
+    * frame rate will not be achieved. Setting the frame rate within
     * <a href="#/p5/setup">setup()</a> is recommended. The default frame rate is
-    * based on the frame rate of the display (here also called "refresh rate"), 
+    * based on the frame rate of the display (here also called "refresh rate"),
     * which is set to 60 frames per second on most computers. A frame rate of 24
-    * frames per second (usual for movies) or above will be enough for smooth 
+    * frames per second (usual for movies) or above will be enough for smooth
     * animations. This is the same as setFrameRate(val).
-    * 
+    *
     * Calling <a href="#/p5/frameRate">frameRate()</a> with no arguments returns
     * the current framerate. The draw function must run at least once before it will
     * return a value. This is the same as <a href="#/p5/getFrameRate">getFrameRate()</a>.
@@ -78446,7 +78446,7 @@
                                                                                                                                                                            *   background(200);
                                                                                                                                                                            *   noLoop();
                                                                                                                                                                            * }
-                                                                                                                                                                          
+
                                                                                                                                                                            * function draw() {
                                                                                                                                                                            *   line(10, 10, 90, 90);
                                                                                                                                                                            * }
@@ -79915,7 +79915,7 @@
     * </code>
     * </div>
     *
-   
+
     * <div>
     * <code>
     * function draw() {
@@ -96264,7 +96264,7 @@
           /**
     * The _areDownKeys function returns a boolean true if any keys pressed
     * and a false if no keys are currently pressed.
-   
+
     * Helps avoid instances where multiple keys are pressed simultaneously and
     * releasing a single key will then switch the
     * keyIsPressed property to true.
@@ -103698,7 +103698,7 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * that links in your sketch. Loading an image from a URL or other
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * remote location may be blocked due to your browser's built-in
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * security.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * You can also pass in a string of a base64 encoded image as an alternative to the file path.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * Remember to add "data:image/png;base64," in front of the string.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *
@@ -105864,7 +105864,7 @@
     * function preload() {
     *   img = loadImage('assets/rockies.jpg');
     * }
-   
+
     * function draw() {
     *   image(img, 0, 0);
     * }
@@ -111464,7 +111464,7 @@
     * function preload() {
     *   result = loadStrings('assets/test.txt');
     * }
-   
+
     * function setup() {
     *   background(200);
     *   text(random(result), 10, 10, 80, 80);
