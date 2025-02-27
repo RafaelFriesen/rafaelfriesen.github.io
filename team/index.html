@@ -83,6 +83,17 @@
       }
     }
 
+    .modal {
+      --bs-modal-bg: rgba(255, 255, 255, 0.85);
+      --bs-modal-width: 90vw;
+    }
+
+    .modal-body {
+      img {
+        max-height: 50vh;
+      }
+    }
+
   </style>
 </head>
 
@@ -98,150 +109,249 @@
       </h1>
     </div>
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/rafael/">
-        <img
-          src="/assets/img/me/rafael-neutral-small.jpg"
-          title="Hier laufen alle Fäden zusammen"/>
-        <br>
-        <b>Chef:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(1)">
+      <img
+        src="/assets/img/me/rafael-neutral-small.jpg"
+        title="Hier laufen alle Fäden zusammen"/>
+      <br>
+      <b>Chef:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/education/">
-        <img
-          src="/assets/img/me/rafael-education-small.jpg"
-          title="Ich liebe es, Leuten von Dingen zu erzählen, die sie noch nicht kennen."/>
-        <br>
-        <b>Lernen und Lehren:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(2)">
+      <img
+        src="/assets/img/me/rafael-education-small.jpg"
+        title="Ich liebe es, Leuten von Dingen zu erzählen, die sie noch nicht kennen."/>
+      <br>
+      <b>Lernen und Lehren:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/fun/">
-        <img
-          src="/assets/img/me/rafael-fun-small.jpg"
-          title="Mein Humor ist unberechenbar, und das Spektrum breit."/>
-        <br>
-        <b>Entertainment:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(3)">
+      <img
+        src="/assets/img/me/rafael-fun-small.jpg"
+        title="Mein Humor ist unberechenbar, und das Spektrum breit."/>
+      <br>
+      <b>Entertainment:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/history/">
-        <img
-          src="/assets/img/me/rafael-child-small.jpg"
-          title="Ich komme aus der Vergangenheit um die Zukunft zu gestalten."/>
-        <br>
-        <b>Zeitreisen und Geschichte:</b>
-        <i>Rafi</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(4)">
+      <img
+        src="/assets/img/me/rafael-child-small.jpg"
+        title="Ich komme aus der Vergangenheit um die Zukunft zu gestalten."/>
+      <br>
+      <b>Zeitreisen und Geschichte:</b><br>
+      <i>Rafi</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/music/">
-        <img
-          src="/assets/img/me/rafael-musik-small.jpg"
-          title="Ich mache gern Musik mit allem, was Töne macht."/>
-        <br>
-        <b>Musik:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(5)">
+      <img
+        src="/assets/img/me/rafael-musik-small.jpg"
+        title="Ich mache gern Musik mit allem, was Töne macht."/>
+      <br>
+      <b>Musik:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/philosophy/">
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(6)">
 
-        <img
-          src="/assets/img/me/rafael-philosophy-small.jpg"
-          title="All diese Dinge zwischen Himmel und Erde."/>
-        <br>
-        <b>Philosophie und Religion:</b>
-        <i>Rafael Friesen</i>
-      </a>
+      <img
+        src="/assets/img/me/rafael-philosophy-small.jpg"
+        title="All diese Dinge zwischen Himmel und Erde."/>
+      <br>
+      <b>Philosophie und Religion:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/science/">
-        <img
-          src="/assets/img/me/rafael-science-small.jpg"
-          title="Ständig neue Ideen. Mal sinnvoll, mal nicht so, aber Langeweile kenne ich nicht."/>
-        <br>
-        <b>Forschung und Wissenschaft:</b>
-        <i>Rafael Friesen, M. Sc. </i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(7)">
+      <img
+        src="/assets/img/me/rafael-science-small.jpg"
+        title="Ständig neue Ideen. Mal sinnvoll, mal nicht so, aber Langeweile kenne ich nicht."/>
+      <br>
+      <b>Forschung und Wissenschaft:</b><br>
+      <i>Rafael Friesen, M. Sc. </i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/family/">
-        <img
-          src="/assets/img/me/rafael-family-small.jpg"
-          title="Meine Familie bereitet mir viel Freude."/>
-        <br>
-        <b>Vater:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(8)">
+      <img
+        src="/assets/img/me/rafael-family-small.jpg"
+        title="Meine Familie bereitet mir viel Freude."/>
+      <br>
+      <b>Vater:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/relaxing/">
-        <img src="/assets/img/me/rafael-relaxing-small.jpg" title="Wenn dann mal Zeit übrig ist."/>
-        <br>
-        <b>Freizeit und Hobbies:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(9)">
+      <img src="/assets/img/me/rafael-relaxing-small.jpg" title="Wenn dann mal Zeit übrig ist."/>
+      <br>
+      <b>Freizeit und Hobbies:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/sports/">
-        <img
-          src="/assets/img/me/rafael-sports-small.jpg"
-          title="Körperliche Ertüchtigung im Rahmen des möglichen."/>
-        <br>
-        <b>Sport:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(10)">
+      <img
+        src="/assets/img/me/rafael-sports-small.jpg"
+        title="Körperliche Ertüchtigung im Rahmen des möglichen."/>
+      <br>
+      <b>Sport:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/visual/">
-        <img src="/assets/img/me/rafael-blond-small.jpg" title="Visuelles aller art."/>
-        <br>
-        <b>Frontend und Bilder:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(11)">
+      <img src="/assets/img/me/rafael-blond-small.jpg" title="Visuelles aller art."/>
+      <br>
+      <b>Frontend und Bilder:</b><br>
+      <i>Rafael Friesen</i>
     </div>
 
 
-    <div class="col-12 col-sm-6 col-lg-4 btn team-card">
-      <a href="/team/visual/">
-        <img src="/assets/img/me/rafael-blond-small.jpg" title="Visuelles aller art."/>
-        <br>
-        <b>Architektur und Handwerk:</b>
-        <i>Rafael Friesen</i>
-      </a>
+    <div class="col-12 col-sm-6 col-lg-4 btn team-card" onclick="toggleModal(12)">
+      <img src="/assets/img/me/rafael-hat-small.jpg" title="Wenn großes Geld verschoben wird."/>
+      <br>
+      <b>Immobilien und Spekulationen:</b><br>
+      <i>Rafael Friesen</i>
     </div>
   </div>
 </div>
 
 
+<!-- Modal -->
+<div id="modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          <span id="modal-title-0">Modal title</span>
+          <span id="modal-title-1" class="d-none">Hier laufen alle Fäden zusammen</span>
+          <span
+            id="modal-title-2"
+            class="d-none">Ich liebe es, Leuten von Dingen zu erzählen, die sie noch nicht kennen</span>
+          <span id="modal-title-3" class="d-none">Mein Humor ist unberechenbar, und das Spektrum breit</span>
+          <span id="modal-title-4" class="d-none">Ich komme aus der Vergangenheit um die Zukunft zu gestalten</span>
+          <span id="modal-title-5" class="d-none">Ich mache gern Musik mit allem, was Töne macht</span>
+          <span id="modal-title-6" class="d-none">All diese Dinge zwischen Himmel und Erde</span>
+          <span id="modal-title-7" class="d-none">Ständig neue Ideen. Mal sinnvoll, mal nicht so, aber Langeweile kenne ich nicht</span>
+          <span id="modal-title-8" class="d-none">Meine Familie bereitet mir viel Freude</span>
+          <span id="modal-title-9" class="d-none">Wenn dann mal Zeit übrig ist</span>
+          <span id="modal-title-10" class="d-none">Körperliche Ertüchtigung im Rahmen des möglichen</span>
+          <span id="modal-title-11" class="d-none">Visuelles aller art</span>
+          <span id="modal-title-12" class="d-none">Wenn großes Geld verschoben wird</span>
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen" style="font-size:24px">
+        </button>
+      </div>
+
+      <div id="modal-body-0" class="modal-body">
+        Test body
+      </div>
+      <div id="modal-body-1" class="modal-body">
+        <img src="/assets/img/me/rafael-neutral-large.jpg"
+             title="Hier laufen alle Fäden zusammen"/>
+        <br>
+      </div>
+      <div id="modal-body-2" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-education-large.jpg"
+          title="Ich liebe es, Leuten von Dingen zu erzählen, die sie noch nicht kennen."/>
+        <br>
+      </div>
+      <div id="modal-body-3" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-fun-large.jpg"
+          title="Mein Humor ist unberechenbar, und das Spektrum breit."/>
+        <br>
+      </div>
+      <div id="modal-body-4" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-child-large.jpg"
+          title="Ich komme aus der Vergangenheit um die Zukunft zu gestalten."/>
+        <br>
+      </div>
+      <div id="modal-body-5" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-musik-large.jpg"
+          title="Ich mache gern Musik mit allem, was Töne macht."/>
+        <br>
+      </div>
+      <div id="modal-body-6" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-philosophy-large.jpg"
+          title="All diese Dinge zwischen Himmel und Erde."/>
+        <br>
+      </div>
+      <div id="modal-body-7" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-science-large.jpg"
+          title="Ständig neue Ideen. Mal sinnvoll, mal nicht so, aber Langeweile kenne ich nicht."/>
+        <br>
+      </div>
+      <div id="modal-body-8" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-family-large.jpg"
+          title="Meine Familie bereitet mir viel Freude."/>
+        <br>
+      </div>
+      <div id="modal-body-9" class="modal-body">
+        <img src="/assets/img/me/rafael-relaxing-large.jpg" title="Wenn dann mal Zeit übrig ist."/>
+        <br>
+      </div>
+      <div id="modal-body-10" class="modal-body">
+        <img
+          src="/assets/img/me/rafael-sports-large.jpg"
+          title="Körperliche Ertüchtigung im Rahmen des möglichen."/>
+        <br>
+      </div>
+      <div id="modal-body-11" class="modal-body">
+        <img src="/assets/img/me/rafael-blond-large.jpg" title="Visuelles aller art."/>
+        <br>
+      </div>
+      <div id="modal-body-12" class="modal-body">
+        <img src="/assets/img/me/rafael-hat-large.jpg" title="Wenn großes Geld verschoben wird."/>
+        <br>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn" data-bs-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
   crossorigin="anonymous"></script>
+<script>
+  function toggleModal(index) {
+    ['title', 'body'].forEach(element => {
+      for (let i = 0; i <= 15; i++) {
+        const elem = document.getElementById(`modal-${element}-${i}`);
+        if (elem) {
+          if (index === i) {
+            elem.classList.remove('d-none');
+            elem.classList.add('d-block');
+          } else {
+            elem.classList.add('d-none');
+            elem.classList.remove('d-block');
+          }
+        }
+      }
+    });
+    const myModal = new bootstrap.Modal('#modal');
+    const modalToggle = document.getElementById('modal');
+    myModal.show(modalToggle);
+  }
+</script>
 </body>
 </html>
