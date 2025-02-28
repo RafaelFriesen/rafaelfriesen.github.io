@@ -2,9 +2,13 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
+  <link href="/alter/" rel="canonical">
+  <link href="/favicon.png" rel="shortcut icon" type="image/png"/>
+  <link href="/favicon.ico" rel="shortcut icon"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description"
-        content="Wann bist du 100000 Stunden alt? Berechne hier die nächsten interessanten Jubiläen!">
+  <meta
+    name="description"
+    content="Wann bist du 100000 Stunden alt? Berechne hier die nächsten interessanten Jubiläen!">
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -54,8 +58,9 @@
 <div class="container mt-4">
   <div class="d-flex align-items-center flex-row mb-4" style="vertical-align: middle;">
     <h1 class="mb-0">Alter</h1>
-    <i id="infoIcon" class="ms-2 bi bi-info-circle text-primary" style="cursor: pointer;"
-       title="Mehr Informationen"></i>
+    <i
+      id="infoIcon" class="ms-2 bi bi-info-circle text-primary" style="cursor: pointer;"
+      title="Mehr Informationen"></i>
   </div>
 
   <!-- Infobox -->
@@ -68,14 +73,17 @@
       </p>
       <p>Es ist wichtig, sich genau an das Format zu halten.</p>
       <p>Diese Eingaben merkt sich dein Browser, sie bleiben nur auf deinem Computer und werden aber nirgendwo anders
-        hingeschickt.</p>
+        hingeschickt.
+      </p>
       <p>Dann kannst du ein Start- und ein End-Datum wählen.</p>
       <p>Alle Jubiläen in diesem Zeitraum werden aufgelistet, wenn du den Berechnen Button drückst.</p>
       <p>Die Bedeutung der Farben: Je grüner, desto mehr halte ich die Zahl für besonders.
-        Z.B. 10 oder 100 ist grüner als 20 oder 200.</p>
+        Z.B. 10 oder 100 ist grüner als 20 oder 200.
+      </p>
       <p>Beachte: Je länger ein Datum her ist, desto seltener werden Jubiläen.</p>
       <p>Wenn du keine Ergebnisse siehst, kannst du nachsehen, ob du die Daten genau so angegeben hast wie im Beispiel.
-        Als Hilfestellung findest du nach erfolgter Berechnung gaanz unten alle erkannten Daten aufgelistet.</p>
+        Als Hilfestellung findest du nach erfolgter Berechnung gaanz unten alle erkannten Daten aufgelistet.
+      </p>
       <p>Wenn das Programm im Zeitraum keine Jubiläen findet, vergrößert es den Zeitraum bis es was findet.</p>
     </div>
     <div class="d-flex justify-content-center mt-3">
@@ -94,7 +102,11 @@
       Format 1: YYYY-MM-DD Name <br>
       Format 2: YYYY-MM-DD HH:MM Name <br>
     </label>
-    <textarea class="form-control" id="datesInput" rows="5" placeholder="z. B. &#10;2023-12-25 Name1&#10;2024-01-01 16:00 Name2"></textarea>
+    <textarea
+      class="form-control"
+      id="datesInput"
+      rows="5"
+      placeholder="z. B. &#10;2023-12-25 Name1&#10;2024-01-01 16:00 Name2"></textarea>
   </div>
 
   <!-- Eingabebereich für Start- und Enddatum -->
@@ -132,13 +144,14 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
 <script
-    src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
-    crossorigin="anonymous"></script>
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+  integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+  crossorigin="anonymous"></script>
 
 <script>
   const units = ['Jahre', 'Monate', 'Wochen', 'Tage', 'Stunden', null, 'Minuten', null, 'Sekunden'];
@@ -312,22 +325,22 @@
       console.log('End-Datum:', endDate);
       // Erst nur den Zeitraum testen
       let filteredList = list.filter((item) =>
-          (isNaN(startDate) || item.timestamp > startDate.getTime())
-          && (isNaN(endDate) || item.timestamp < endDate.getTime())
+        (isNaN(startDate) || item.timestamp > startDate.getTime())
+        && (isNaN(endDate) || item.timestamp < endDate.getTime())
       );
       // Wenn nichts gefunden, Zeitraum um 10 Jahre verlängern
       if (filteredList.length === 0) {
         endDate.setFullYear(endDate.getFullYear() + 10);
         filteredList = list.filter((item) =>
-            (isNaN(startDate) || item.timestamp > startDate.getTime())
-            && (isNaN(endDate) || item.timestamp < endDate.getTime())
+          (isNaN(startDate) || item.timestamp > startDate.getTime())
+          && (isNaN(endDate) || item.timestamp < endDate.getTime())
         );
       }
       // Wenn nichts gefunden, Ende weg
       if (filteredList.length === 0) {
-        endDate = new Date(list[list.length-1].offsetTimestamp);
+        endDate = new Date(list[list.length - 1].offsetTimestamp);
         filteredList = list.filter((item) =>
-            (isNaN(startDate) || item.timestamp > startDate.getTime())
+          (isNaN(startDate) || item.timestamp > startDate.getTime())
         );
       }
       // Wenn nichts gefunden, Start weg
