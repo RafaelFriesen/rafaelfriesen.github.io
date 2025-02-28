@@ -65,16 +65,16 @@
       let names = getNames();
       var n = names.length;
       var result = [];
-      let nx = n % 2 == 0 ? n - 1 : n;
+      let nx = n % 2 === 0 ? n - 1 : n;
       let add = (Math.floor(time.nr / n) % (n - 1)) + 1;
       var double = document.getElementById("double").checked;
       let special;
       for (let i = 0; i < nx; i++) {
         var entry = {a: i, b: n, optional: false};
         var match = (nx + nx + time.nr - i) % nx;
-        if (i == match) {
+        if (i === match) {
           special = i;
-          if (n % 2 == 0) {
+          if (n % 2 === 0) {
             match = n - 1;
           } else {
             entry.optional = true;
@@ -166,7 +166,7 @@
 
     function run() {
       saveText();
-      let odd = getNames().length % 2 == 1;
+      let odd = getNames().length % 2 === 1;
       document.getElementById("doublediv").style.display = odd
         ? "block"
         : "none";
