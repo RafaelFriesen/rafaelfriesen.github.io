@@ -80,6 +80,7 @@
       <p>Die Bedeutung der Farben: Je grüner, desto mehr halte ich die Zahl für besonders.
         Z.B. 10 oder 100 ist grüner als 20 oder 200.
       </p>
+      <p>Normale Geburtstage sind nur zur Orientierung und ohne Farbe angezeigt.</p>
       <p>Beachte: Je länger ein Datum her ist, desto seltener werden Jubiläen.</p>
       <p>Wenn du keine Ergebnisse siehst, kannst du nachsehen, ob du die Daten genau so angegeben hast wie im Beispiel.
         Als Hilfestellung findest du nach erfolgter Berechnung gaanz unten alle erkannten Daten aufgelistet.
@@ -200,7 +201,9 @@
       });
     }
   });
-
+  const specialBirthdays = prefix.map(p => p.value)
+  specialBirthdays.push(...prefix.map(p => p.value * 10))
+  specialBirthdays.push(100);
 
   $(document).ready(function () {
 
@@ -305,6 +308,22 @@
                 timestamp: offsetDate.getTime(),
               });
             });
+            // regular birthdays
+            for (let i = 0; i < 120; i++) {
+              if (specialBirthdays.includes(i)) continue;
+              const offsetDate = new Date(baseDate); // Basisdatum kopieren
+              offsetDate.setFullYear(offsetDate.getFullYear() + i);
+              list.push({
+                originalLine: line,
+                name, // Name aus der Eingabezeile
+                originalTimestamp: baseDate.toISOString(),
+                offsetValue: i,
+                offsetUnit: 'Jahre',
+                regularBirthday: true,
+                offsetTimestamp: offsetDate.toISOString().substring(0,10),
+                timestamp: offsetDate.getTime(),
+              });
+            }
           }
         }
       });
@@ -318,6 +337,9 @@
         }
         return new Date(a.offsetTimestamp) - new Date(b.offsetTimestamp);
       });
+      if (byColor) {
+        list = list.filter(item => !item.regularBirthday);
+      }
 
       let startDate = new Date($('#startDate').val()); // Startdatum auslesen (YYYY-MM-DD)
       let endDate = new Date($('#endDate').val()); // Enddatum auslesen (YYYY-MM-DD)
@@ -363,23 +385,31 @@
 
       if (list.length > 0) {
         list.forEach(item => {
-          outputDiv.append(`
-            <div class="p-2 border border-secondary rounded mb-2 weight-${item.weight}">
-              <!--h2>${item.name} ist ${item.offsetValue} ${item.offsetUnit} alt.</h2>
-              <h3>(am ${item.offsetTimestamp.replace('.000Z', '').replace('T', ' um ')})</h3-->
-              <h2>
-                <b>${item.name}</b> ist
-                (am ${item.offsetTimestamp.replace('.000Z', '').replace('T', ' um ')})
-                <b>${item.offsetValue} ${item.offsetUnit}</b> alt.
-              </h2>
-              <!--strong>Name:</strong> ${item.name}<br-->
-              <strong>Originale Zeile:</strong> ${item.originalLine}<br>
-              <!--strong>Zeitstempel:</strong> ${item.originalTimestamp}<br-->
-              <!--strong>Offset:</strong> ${item.offsetValue} ${item.offsetUnit}<br-->
-              <!--strong>Zeitstempel mit Offset:</strong> ${item.offsetTimestamp}<br-->
-              <!--strong>Gewichtung:</strong> ${item.weight}-->
-            </div>
-          `);
+          if (item.regularBirthday) {
+            outputDiv.append(`
+              <div class="p-0 mb-2 text-center">
+                ${item.offsetValue}. Geburtstag von ${item.name} am ${item.offsetTimestamp}
+              </div>
+            `);
+          } else {
+            outputDiv.append(`
+              <div class="p-2 border border-secondary rounded mb-2 weight-${item.weight}">
+                <!--h2>${item.name} ist ${item.offsetValue} ${item.offsetUnit} alt.</h2>
+                <h3>(am ${item.offsetTimestamp.replace('.000Z', '').replace('T', ' um ')})</h3-->
+                <h2>
+                  <b>${item.name}</b> ist
+                  (am ${item.offsetTimestamp.replace('.000Z', '').replace('T', ' um ')})
+                  <b>${item.offsetValue} ${item.offsetUnit}</b> alt.
+                </h2>
+                <!--strong>Name:</strong> ${item.name}<br-->
+                <strong>Originale Zeile:</strong> ${item.originalLine}<br>
+                <!--strong>Zeitstempel:</strong> ${item.originalTimestamp}<br-->
+                <!--strong>Offset:</strong> ${item.offsetValue} ${item.offsetUnit}<br-->
+                <!--strong>Zeitstempel mit Offset:</strong> ${item.offsetTimestamp}<br-->
+                <!--strong>Gewichtung:</strong> ${item.weight}-->
+              </div>
+            `);
+          }
         });
       } else {
         outputDiv.append(`<div class="text-danger">Keine gültigen Daten gefunden. Schau dir das Format noch einmal an!</div>`);
@@ -389,11 +419,11 @@
         Name: <code style="background-color: lightgray;">${item.name}</code>
         Datum: <code style="background-color: lightgray;">${item.dateStr}</code>
         Zeit: <code style="background-color: lightgray;">${item.timeStr}</code>
-        <br>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">
+        <br/>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">
           ${item.baseDate.toISOString().replace('.000Z', '').replace('T', ' ')}
         </code>
-      `)
-      //        <br>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">${item.baseDate.toISOString()}</code>
+      `);
+      // <br/>=> Verwendeter Zeitpunkt: <code style="background-color: lightgray;">${item.baseDate.toISOString()}</code>
 
       outputDiv.append(`
         <div class="text-italic">
