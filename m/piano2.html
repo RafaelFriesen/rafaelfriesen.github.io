@@ -40,7 +40,7 @@
       line-height: 60px;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.32/Tone.js"></script>
+  <script src="https://unpkg.com/tone"></script>
 </head>
 <body>
 <div id="container">
@@ -57,31 +57,58 @@
   var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   var html = '';
 
+  function set_handlers(name) {
+    const el = document.getElementById(name);
+    el.ontouchstart = start_handler;
+    el.ontouchmove = move_handler;
+    el.ontouchcancel = end_handler;
+    el.ontouchend = end_handler;
+  }
+
   for (var row = 0; row < 9; row++) {
     for (var i = -(row >> 1); i < 10 - (row >> 1); i++) {
       var note = notes[(row * 4 + i * 7) % 12];
       octave = Math.floor((row * 4 + i * 7) / 12) + 2;
       var color = note.length > 1 ? 'black' : 'white'
-      html += `<div class="${color} knob"
+      html += `<div id="note-${row}-${i}"
+                    class="${color} knob"
                     style="left:${(i * 1.2 + row * 0.6625) * size}px; top:${(row - i * 0.05) * size}px;"
-                    onmousedown="noteDown(this, color)"
-                    onmouseup="noteUp(this, color)"
-                    onmouseleave="noteUp(this, color)"
                     data-note="${note + octave}">${note}</div>`;
     }
   }
-
   document.getElementById('container').innerHTML = html;
 
+  for (var row = 0; row < 9; row++) {
+    for (var i = -(row >> 1); i < 10 - (row >> 1); i++) {
+      set_handlers(`note-${row}-${i}`);
+    }
+  }
+
+  function start_handler(ev) {
+    ev.preventDefault();
+    noteDown(ev.target);
+  }
+
+  function move_handler(ev) {
+    ev.preventDefault();
+  }
+
+  function end_handler(ev) {
+    ev.preventDefault();
+    noteUp(ev.target);
+  }
   function noteUp(elem) {
     elem.classList.remove('playing');
+    const note = elem.dataset.note;
+    const now = Tone.now();
+    synth.triggerRelease(note, now);
   }
 
   function noteDown(elem) {
-    var note = elem.dataset.note;
     elem.classList.add('playing');
-    synth.triggerAttackRelease(note, "4n");
-    event.stopPropagation();
+    const note = elem.dataset.note;
+    const now = Tone.now();
+    synth.triggerAttack(note, now);
   }
 
 </script>
