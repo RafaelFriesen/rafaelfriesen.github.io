@@ -23,6 +23,10 @@
       background: #AAA;
     }
 
+    #outer-container {
+      position: relative;
+    }
+
     #container {
       position: absolute;
       top: 30px;
@@ -36,14 +40,38 @@
       border-radius: 30px;
       border: 2px solid black;
       text-align: center;
-      font-size: 40px;
+      font-size: 0;
       line-height: 60px;
+      overflow: hidden;
     }
+
+    .knob-label {
+      pointer-events: none;
+
+      &.note {
+        font-size: 32px;
+      }
+
+      &.octave {
+        font-size: 20px;
+      }
+    }
+
   </style>
   <script src="https://unpkg.com/tone"></script>
 </head>
 <body>
-<div id="container">
+<button onclick="reset()" id="start">Start</button>
+<br>
+<input id="slider-dx" type="range" value="7" min="0" max="12" step="1" onchange="reset()">
+<label for="slider-dx">DX</label>=<span id="slider-dx-value">7</span>
+<br>
+<input id="slider-dy" type="range" value="4" min="0" max="12" step="1" onchange="reset()">
+<label for="slider-dy">DY</label>=<span id="slider-dy-value">4</span>
+
+<div id="outer-container">
+  <div id="container">
+  </div>
 </div>
 <script>
   // https://www.youtube.com/watch?v=wIxqNrooWws
@@ -52,10 +80,28 @@
   // https://tonejs.github.io/
 
 
-  var size = 60;
-  var synth = new Tone.PolySynth(Tone.Synth, 3).toDestination();
-  var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-  var html = '';
+  let size = 60;
+  const rows = 13;
+  const cols = 13;
+  let notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const intervals = [
+    '(0 ht) 1 / 8',
+    '(1 ht) + / j7',
+    '(2 ht) 2 / 7',
+    '(3 ht) m / 6',
+    '(4 ht) D / 5+',
+    '(5 ht) 4 / 5',
+    '(6 ht) 5- / 5-',
+    '(7 ht) 5 / 4',
+    '(8 ht) 5+ / m',
+    '(9 ht) 6 / D',
+    '(10 ht) 7 / 2',
+    '(11 ht) j7 / +',
+    '(12 ht) 8 / 1',
+  ]
+  let html = '';
+  let synth;
+  const playing = new Map();
 
   function set_handlers(name) {
     const el = document.getElementById(name);
@@ -65,52 +111,100 @@
     el.ontouchend = end_handler;
   }
 
-  for (var row = 0; row < 9; row++) {
-    for (var i = -(row >> 1); i < 10 - (row >> 1); i++) {
-      var note = notes[(row * 4 + i * 7) % 12];
-      octave = Math.floor((row * 4 + i * 7) / 12) + 2;
-      var color = note.length > 1 ? 'black' : 'white'
-      html += `<div id="note-${row}-${i}"
-                    class="${color} knob"
-                    style="left:${(i * 1.2 + row * 0.6625) * size}px; top:${(row - i * 0.05) * size}px;"
-                    data-note="${note + octave}">${note}</div>`;
+  function init() {
+    for (var row = 0; row < rows; row++) {
+      for (var i = -(row >> 1); i < cols - (row >> 1); i++) {
+        html += `
+          <div id="knob-${row}-${i}"
+            class="knob"
+            style="left:${(i * 1.2 + row * 0.6625) * size}px; top:${(row - i * 0.05) * size}px;"
+            data-note="">
+            <span id="note-${row}-${i}" class="knob-label note">0</span>
+            <span id="octave-${row}-${i}" class="knob-label octave">1</span>
+          </div>`;
+      }
     }
+    document.getElementById('container').innerHTML = html;
   }
-  document.getElementById('container').innerHTML = html;
 
-  for (var row = 0; row < 9; row++) {
-    for (var i = -(row >> 1); i < 10 - (row >> 1); i++) {
-      set_handlers(`note-${row}-${i}`);
+  function reset() {
+    // take values from sliders
+    const dx = document.getElementById('slider-dx').value;
+    const dy = document.getElementById('slider-dy').value;
+    // display values next to sliders
+    document.getElementById('slider-dx-value').innerText = intervals[dx];
+    document.getElementById('slider-dy-value').innerText = intervals[dy];
+
+    for (var row = 0; row < rows; row++) {
+      for (var i = -(row >> 1); i < cols - (row >> 1); i++) {
+        const note = notes[(row * dy + i * dx + 12) % 12] ?? 'C';
+        const octave = Math.floor((row * dy + i * dx) / 12);
+        var color = note.length > 1 ? 'black' : 'white'
+        let label = note.replace('B', 'H').replace('A#', 'B');
+        const name = `knob-${row}-${i}`
+        const el = document.getElementById(name);
+        el.classList.remove('black', 'white');
+        el.classList.add(color);
+        el.setAttribute('data-note', note + octave);
+        document.getElementById(`note-${row}-${i}`).innerText = label;
+        document.getElementById(`octave-${row}-${i}`).innerText = `${octave}`;
+        set_handlers(name);
+      }
     }
+    synth = new Tone.PolySynth(Tone.Synth, 3).toDestination();
   }
 
   function start_handler(ev) {
     ev.preventDefault();
-    noteDown(ev.target);
+    noteDown(ev.changedTouches[0]?.identifier, ev.target);
   }
 
   function move_handler(ev) {
     ev.preventDefault();
+
+    // Erfassungsposition ermitteln (Touch- oder Mausposition)
+    const x = ev.touches ? ev.touches[0].clientX : ev.clientX;
+    const y = ev.touches ? ev.touches[0].clientY : ev.clientY;
+    const touchId = ev.changedTouches[0]?.identifier;
+
+    // Element unter der aktuellen Position holen
+    const element = document.elementFromPoint(x, y);
+
+    // Prüfen, ob das Element eine Note ist:
+    if (element && element.classList.contains('knob')) {
+      if (!playing.get(touchId).includes(element)) {
+        noteDown(touchId, element);
+      }
+    }
+
   }
 
   function end_handler(ev) {
     ev.preventDefault();
-    noteUp(ev.target);
-  }
-  function noteUp(elem) {
-    elem.classList.remove('playing');
-    const note = elem.dataset.note;
-    const now = Tone.now();
-    synth.triggerRelease(note, now);
+    noteUp(ev.changedTouches[0]?.identifier);
   }
 
-  function noteDown(elem) {
+  function noteUp(touchId) {
+    playing.get(touchId).forEach(elem => {
+      elem.classList.remove('playing');
+      const note = elem.dataset.note;
+      const now = Tone.now();
+      synth.triggerRelease(note, now);
+    });
+    playing.delete(touchId);
+  }
+
+  function noteDown(touchId, elem) {
+    if (!playing.get(touchId)) playing.set(touchId, []);
+    playing.get(touchId).push(elem);
     elem.classList.add('playing');
     const note = elem.dataset.note;
     const now = Tone.now();
     synth.triggerAttack(note, now);
   }
 
+  init();
+  reset();
 </script>
 </body>
 </html>
