@@ -68,16 +68,21 @@
 <input id="slider-dx" type="range" value="3" min="0" max="12" step="1" onchange="reset()">
 <button onclick="increase('slider-dx')">+</button>
 &nbsp;
-<label for="slider-dx">DX</label>=<span id="slider-dx-value">7</span>
+<label for="slider-dx">DX</label>=<span id="slider-dx-value">7</span>  (Richtung Rechts)
 <br>
 
 <button onclick="decrease('slider-dy')">-</button>
 <input id="slider-dy" type="range" value="5" min="0" max="12" step="1" onchange="reset()">
 <button onclick="increase('slider-dy')">+</button>
 &nbsp;
-<label for="slider-dy">DY</label>=<span id="slider-dy-value">7</span>
+<label for="slider-dy">DY</label>=<span id="slider-dy-value">7</span> (Richtung rechts unten)
 <br>
-=> DZ=<span id="dz-value">-2</span>
+
+<button>-</button>
+<input id="slider-dz" type="range" value="5" min="0" max="12" step="1" disabled>
+<button>+</button>
+&nbsp;
+<label for="slider-dy">DY</label>=<span id="slider-dz-value">7</span> (Richtung links unten)
 <br>
 
 <button onclick="decrease('slider-octave')">-</button>
@@ -159,14 +164,15 @@
     // take values from sliders
     const dx = +document.getElementById('slider-dx').value;
     const dy = +document.getElementById('slider-dy').value;
-    const dz = dy - dx;
+    const dz = (dy - dx + 12) % 12;
+    document.getElementById('slider-dz').value = dz;
     const octaveOffset = +document.getElementById('slider-octave').value;
     const trail = +document.getElementById('slider-trail').value;
     // display values next to sliders
     document.getElementById('slider-dx-value').innerText = intervals[dx];
     document.getElementById('slider-dy-value').innerText = intervals[dy];
+    document.getElementById('slider-dz-value').innerText = intervals[dz];
     document.getElementById('slider-trail-value').innerText = trail;
-    document.getElementById('dz-value').innerText = intervals[(dz + 12) % 12];
     document.getElementById('slider-octave-value').innerText = octaveOffset;
 
     for (var row = 0; row < rows; row++) {
