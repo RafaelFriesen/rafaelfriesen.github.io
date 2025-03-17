@@ -202,39 +202,36 @@
 
   function move_handler(ev) {
     ev.preventDefault();
-
-    // Erfassungsposition ermitteln (Touch- oder Mausposition)
-    const x = ev.touches ? ev.touches[0].clientX : ev.clientX;
-    const y = ev.touches ? ev.touches[0].clientY : ev.clientY;
-    const touchId = ev.changedTouches[0]?.identifier;
-
-    // Element unter der aktuellen Position holen
-    const element = document.elementFromPoint(x, y);
-
-    // Prüfen, ob das Element eine Note ist:
-    if (element && element.classList.contains('knob')) {
-      if (!playing.get(touchId).includes(element)) {
-        noteDown(touchId, element);
-      }
+    let pointers = [[ev.clientX, ev.clientY, 1]];
+    if (ev.touches) {
+      pointers = Array.from(ev.touches).map((touch) =>
+        [touch.clientX, touch.clientY, touch.identifier]
+      );
     }
+    // Erfassungsposition ermitteln (Touch- oder Mausposition)
+    // const x = ev.touches ? ev.touches[0].clientX : ev.clientX;
+    // const y = ev.touches ? ev.touches[0].clientY : ev.clientY;
+    // const touchId = ev.changedTouches[0]?.identifier;
+
+    pointers.forEach(
+      ([x, y, id]) => moveTo(x, y, id)
+    );
   }
 
   function mouse_move_handler(ev) {
-
     if (!ev.buttons) return;
     ev.preventDefault();
-    console.log(ev);
-    // // Erfassungsposition ermitteln (Touch- oder Mausposition)
-    const x = ev.clientX;
-    const y = ev.clientY;
+    moveTo(ev.clientX, ev.clientY, 1)
+  }
 
+  function moveTo(x, y, id) {
     // Element unter der aktuellen Position holen
     const element = document.elementFromPoint(x, y);
 
     // Prüfen, ob das Element eine Note ist:
     if (element && element.classList.contains('knob')) {
-      if (!playing.get(1).includes(element)) {
-        noteDown(1, element);
+      if (!playing.get(id).includes(element)) {
+        noteDown(id, element);
       }
     }
   }
