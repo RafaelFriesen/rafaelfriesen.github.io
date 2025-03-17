@@ -2,11 +2,11 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Piano</title>
+  <title>Knopf-Piano</title>
   <meta
     name="description"
     content="Ein simples Musikinstrument für experimentelle Zwecke">
-  <link href="/m/piano2.html" rel="canonical">
+  <link href="/piano/" rel="canonical">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <link href="/favicon.png" rel="shortcut icon" type="image/png"/>
   <link href="/favicon.ico" rel="shortcut icon"/>
@@ -63,11 +63,28 @@
 <body>
 <button onclick="reset()" id="start">Start</button>
 <br>
-<input id="slider-dx" type="range" value="7" min="0" max="12" step="1" onchange="reset()">
+
+<button onclick="decrease('slider-dx')">-</button>
+<input id="slider-dx" type="range" value="3" min="0" max="12" step="1" onchange="reset()">
+<button onclick="increase('slider-dx')">+</button>
+&nbsp;
 <label for="slider-dx">DX</label>=<span id="slider-dx-value">7</span>
 <br>
-<input id="slider-dy" type="range" value="4" min="0" max="12" step="1" onchange="reset()">
-<label for="slider-dy">DY</label>=<span id="slider-dy-value">4</span>
+
+<button onclick="decrease('slider-dy')">-</button>
+<input id="slider-dy" type="range" value="5" min="0" max="12" step="1" onchange="reset()">
+<button onclick="increase('slider-dy')">+</button>
+&nbsp;
+<label for="slider-dy">DY</label>=<span id="slider-dy-value">7</span>
+<br>
+=> DZ=<span id="dz-value">-2</span>
+<br>
+
+<button onclick="decrease('slider-octave')">-</button>
+<input id="slider-octave" type="range" value="0" min="-7" max="7" step="1" onchange="reset()">
+<button onclick="increase('slider-octave')">+</button>
+&nbsp;
+<label for="slider-octave">Octave offset</label>=<span id="slider-octave-value">0</span>
 
 <div id="outer-container">
   <div id="container">
@@ -93,8 +110,8 @@
     '(5 ht) 4 / 5',
     '(6 ht) 5- / 5-',
     '(7 ht) 5 / 4',
-    '(8 ht) 5+ / m',
-    '(9 ht) 6 / D',
+    '(8 ht) 5+ / D',
+    '(9 ht) 6 / m',
     '(10 ht) 7 / 2',
     '(11 ht) j7 / +',
     '(12 ht) 8 / 1',
@@ -109,6 +126,10 @@
     el.ontouchmove = move_handler;
     el.ontouchcancel = end_handler;
     el.ontouchend = end_handler;
+
+    el.onmousedown = mouse_start_handler;
+    el.onmousemove = mouse_move_handler;
+    el.onmouseup = mouse_end_handler;
   }
 
   function init() {
@@ -129,16 +150,20 @@
 
   function reset() {
     // take values from sliders
-    const dx = document.getElementById('slider-dx').value;
-    const dy = document.getElementById('slider-dy').value;
+    const dx = +document.getElementById('slider-dx').value;
+    const dy = +document.getElementById('slider-dy').value;
+    const dz = dy - dx;
+    const octaveOffset = +document.getElementById('slider-octave').value;
     // display values next to sliders
     document.getElementById('slider-dx-value').innerText = intervals[dx];
     document.getElementById('slider-dy-value').innerText = intervals[dy];
+    document.getElementById('dz-value').innerText = intervals[(dz + 12) % 12];
+    document.getElementById('slider-octave-value').innerText = octaveOffset;
 
     for (var row = 0; row < rows; row++) {
       for (var i = -(row >> 1); i < cols - (row >> 1); i++) {
         const note = notes[(row * dy + i * dx + 12) % 12] ?? 'C';
-        const octave = Math.floor((row * dy + i * dx) / 12);
+        const octave = Math.floor((row * dy + i * dx) / 12) + octaveOffset;
         var color = note.length > 1 ? 'black' : 'white'
         let label = note.replace('B', 'H').replace('A#', 'B');
         const name = `knob-${row}-${i}`
@@ -151,12 +176,28 @@
         set_handlers(name);
       }
     }
+    window.addEventListener('mouseup', mouse_end_handler)
     synth = new Tone.PolySynth(Tone.Synth, 3).toDestination();
+  }
+
+  function increase(id) {
+    document.getElementById(id).value = +document.getElementById(id).value + 1;
+    reset();
+  }
+
+  function decrease(id) {
+    document.getElementById(id).value = +document.getElementById(id).value - 1;
+    reset();
   }
 
   function start_handler(ev) {
     ev.preventDefault();
     noteDown(ev.changedTouches[0]?.identifier, ev.target);
+  }
+
+  function mouse_start_handler(ev) {
+    ev.preventDefault();
+    noteDown(1, ev.target);
   }
 
   function move_handler(ev) {
@@ -176,7 +217,26 @@
         noteDown(touchId, element);
       }
     }
+  }
 
+  function mouse_move_handler(ev) {
+
+    if (!ev.buttons) return;
+    ev.preventDefault();
+    console.log(ev);
+    // // Erfassungsposition ermitteln (Touch- oder Mausposition)
+    const x = ev.clientX;
+    const y = ev.clientY;
+
+    // Element unter der aktuellen Position holen
+    const element = document.elementFromPoint(x, y);
+
+    // Prüfen, ob das Element eine Note ist:
+    if (element && element.classList.contains('knob')) {
+      if (!playing.get(1).includes(element)) {
+        noteDown(1, element);
+      }
+    }
   }
 
   function end_handler(ev) {
@@ -184,8 +244,12 @@
     noteUp(ev.changedTouches[0]?.identifier);
   }
 
+  function mouse_end_handler(ev) {
+    noteUp(1);
+  }
+
   function noteUp(touchId) {
-    playing.get(touchId).forEach(elem => {
+    (playing.get(touchId) ?? []).forEach(elem => {
       elem.classList.remove('playing');
       const note = elem.dataset.note;
       const now = Tone.now();
