@@ -85,6 +85,13 @@
 <button onclick="increase('slider-octave')">+</button>
 &nbsp;
 <label for="slider-octave">Octave offset</label>=<span id="slider-octave-value">0</span>
+<br>
+
+<button onclick="decrease('slider-trail')">-</button>
+<input id="slider-trail" type="range" value="3" min="1" max="20" step="1" onchange="reset()">
+<button onclick="increase('slider-trail')">+</button>
+&nbsp;
+<label for="slider-trail">Maximale noten: </label> Die letzten <span id="slider-trail-value">3</span>
 
 <div id="outer-container">
   <div id="container">
@@ -154,9 +161,11 @@
     const dy = +document.getElementById('slider-dy').value;
     const dz = dy - dx;
     const octaveOffset = +document.getElementById('slider-octave').value;
+    const trail = +document.getElementById('slider-trail').value;
     // display values next to sliders
     document.getElementById('slider-dx-value').innerText = intervals[dx];
     document.getElementById('slider-dy-value').innerText = intervals[dy];
+    document.getElementById('slider-trail-value').innerText = trail;
     document.getElementById('dz-value').innerText = intervals[(dz + 12) % 12];
     document.getElementById('slider-octave-value').innerText = octaveOffset;
 
@@ -246,22 +255,29 @@
   }
 
   function noteUp(touchId) {
-    (playing.get(touchId) ?? []).forEach(elem => {
-      elem.classList.remove('playing');
-      const note = elem.dataset.note;
-      const now = Tone.now();
-      synth.triggerRelease(note, now);
-    });
+    (playing.get(touchId) ?? []).forEach(stop);
     playing.delete(touchId);
   }
 
   function noteDown(touchId, elem) {
+    const trail = +document.getElementById('slider-trail').value;
+
     if (!playing.get(touchId)) playing.set(touchId, []);
-    playing.get(touchId).push(elem);
+    const notes = playing.get(touchId);
+    notes.push(elem);
+    if (notes.length > trail) {
+      stop(notes.shift());
+    }
+    playing.set(touchId, notes);
+
     elem.classList.add('playing');
     const note = elem.dataset.note;
-    const now = Tone.now();
-    synth.triggerAttack(note, now);
+    synth.triggerAttack(note, Tone.now());
+  }
+
+  function stop(noteElem) {
+    noteElem.classList.remove('playing');
+    synth.triggerRelease(noteElem.dataset.note, Tone.now());
   }
 
   init();
