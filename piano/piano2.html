@@ -35,8 +35,8 @@
 
     .knob {
       position: absolute;
-      width: 60px;
-      height: 60px;
+      /*width: 60px;*/
+      /*height: 60px;*/
       border-radius: 30px;
       border: 2px solid black;
       text-align: center;
@@ -68,7 +68,7 @@
 <input id="slider-dx" type="range" value="3" min="0" max="12" step="1" onchange="reset()">
 <button onclick="increase('slider-dx')">+</button>
 &nbsp;
-<label for="slider-dx">DX</label>=<span id="slider-dx-value">7</span>  (Richtung Rechts)
+<label for="slider-dx">DX</label>=<span id="slider-dx-value">7</span> (Richtung Rechts)
 <br>
 
 <button onclick="decrease('slider-dy')">-</button>
@@ -86,17 +86,17 @@
 <br>
 
 <button onclick="decrease('slider-octave')">-</button>
-<input id="slider-octave" type="range" value="0" min="-7" max="7" step="1" onchange="reset()">
+<input id="slider-octave" type="range" value="2" min="-2" max="10" step="1" onchange="reset()">
 <button onclick="increase('slider-octave')">+</button>
 &nbsp;
-<label for="slider-octave">Octave offset</label>=<span id="slider-octave-value">0</span>
+<label for="slider-octave">Octave:</label> <span id="slider-octave-value">4</span>
 <br>
 
-<button onclick="decrease('slider-trail')">-</button>
-<input id="slider-trail" type="range" value="3" min="1" max="20" step="1" onchange="reset()">
-<button onclick="increase('slider-trail')">+</button>
+<button onclick="decrease('slider-base')">-</button>
+<input id="slider-base" type="range" value="7" min="0" max="11" step="1" onchange="reset()">
+<button onclick="increase('slider-base')">+</button>
 &nbsp;
-<label for="slider-trail">Maximale noten: </label> Die letzten <span id="slider-trail-value">3</span>
+<label for="slider-base">Grundton: </label> <span id="slider-base-value">G</span>
 
 <div id="outer-container">
   <div id="container">
@@ -108,11 +108,13 @@
   // https://cdnjs.com/libraries/tone
   // https://tonejs.github.io/
 
+
   let size = 56;
   let distance = 60;
-  const rows = 13;
-  const cols = 13;
-  let notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const rows = 8;
+  const cols = 10;
+  let notes =    ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C'];
+  let relNotes = ['1', '1+',  '2', 'm',  'D', '4', '5-', '5', '5+', '6', '7', 'j7', '8'];
   const intervals = [
     '(0 ht) 1 / 8',
     '(1 ht) + / j7',
@@ -158,8 +160,8 @@
               line-height:${size}px;
             "
             data-note="">
-            <span id="note-${row}-${i}" class="knob-label note">0</span>
-            <span id="octave-${row}-${i}" class="knob-label octave">1</span>
+            <span id="note-${row}-${i}" class="knob-label note" style="font-size:${size/2}px;">0</span>
+            <span id="octave-${row}-${i}" class="knob-label octave" style="font-size:${size/3}px;">1</span>
           </div>`;
       }
     }
@@ -172,38 +174,47 @@
     const dy = +document.getElementById('slider-dy').value;
     const dz = (dy - dx + 12) % 12;
     document.getElementById('slider-dz').value = dz;
+    const base = +document.getElementById('slider-base').value;
     const octaveOffset = +document.getElementById('slider-octave').value;
-    const trail = +document.getElementById('slider-trail').value;
     // display values next to sliders
     document.getElementById('slider-dx-value').innerText = intervals[dx];
     document.getElementById('slider-dy-value').innerText = intervals[dy];
     document.getElementById('slider-dz-value').innerText = intervals[dz];
-    document.getElementById('slider-trail-value').innerText = trail;
     document.getElementById('slider-octave-value').innerText = octaveOffset;
+    document.getElementById('slider-base-value').innerText = notes[base];
 
     for (var row = 0; row < rows; row++) {
       for (var i = -(row >> 1); i < cols - (row >> 1); i++) {
-        const note = notes[(row * dy + i * dx + 12) % 12] ?? 'C';
-        const octave = Math.floor((row * dy + i * dx) / 12) + octaveOffset;
-        var color = note.length > 1 ? 'black' : 'white'
-        let label = note.replace('B', 'H').replace('A#', 'B');
+        const note = (row * dy + i * dx + 12 + base) % 12;
+        var color = notes[note].length > 1 ? 'black' : 'white'
+        let label = relNotes[(note + 12 - base) % 12];
         const name = `knob-${row}-${i}`
         const el = document.getElementById(name);
         el.classList.remove('black', 'white');
         el.classList.add(color);
-        el.setAttribute('data-note', note + octave);
+        el.setAttribute('data-note', note);
         document.getElementById(`note-${row}-${i}`).innerText = label;
-        document.getElementById(`octave-${row}-${i}`).innerText = `${octave}`;
+        document.getElementById(`octave-${row}-${i}`).innerText = `${notes[note]}`;
         set_handlers(name);
       }
     }
     window.addEventListener('mouseup', mouse_end_handler)
-    synth = new Tone.PolySynth().toDestination();
+
+    synth = new Tone.PolySynth(Tone.Synth, 3).toDestination();
+    // synth = new Tone.MonoSynth({
+    //   oscillator: {
+    //     type: "square"
+    //   },
+    //   envelope: {
+    //     attack: 0.1,
+    //     decay: 0.4,
+    //   }
+    // }).toDestination();
     synth.set({
       envelope: {
-        attack: 0.05,
-        // sustain: 0.9,
-        // release: 1,
+        attack: 0.2,
+        sustain: 0.9,
+        release: 1,
       }
     });
   }
@@ -279,24 +290,42 @@
   }
 
   function noteDown(touchId, elem) {
-    const trail = +document.getElementById('slider-trail').value;
 
     if (!playing.get(touchId)) playing.set(touchId, []);
-    const notes = playing.get(touchId);
-    notes.push(elem);
-    if (notes.length > trail) {
-      stop(notes.shift());
-    }
-    playing.set(touchId, notes);
+    const tones = playing.get(touchId);
+    tones.push(elem);
+    playing.set(touchId, tones);
 
     elem.classList.add('playing');
-    const note = elem.dataset.note;
-    synth.triggerAttack(note, Tone.now());
+
+    // console.log(+elem.dataset.note);
+    const note = +elem.dataset.note;
+    const noteName = notes[note];
+    const octave = document.getElementById('slider-octave').value;
+    const v1 = 0.1 + note / 18;
+    const v2 = 0.75 + note / 48;
+    const v3 = 1 - note / 48;
+    const v4 = 0.75 - note / 16;
+    const volume = 0.2;
+    // console.log(noteName + octave, [v1, v2, v3, v4]);
+    synth.triggerAttack(noteName + octave, Tone.now(), v1*volume);
+    synth.triggerAttack(noteName + (+octave + 1), Tone.now(), v2*volume);
+    synth.triggerAttack(noteName + (+octave + 2), Tone.now(), v3*volume);
+    synth.triggerAttack(noteName + (+octave + 3), Tone.now(), v4*volume);
   }
 
   function stop(noteElem) {
     noteElem.classList.remove('playing');
-    synth.triggerRelease(noteElem.dataset.note, Tone.now());
+    const note = +noteElem.dataset.note;
+    const noteName = notes[note];
+    const octave = document.getElementById('slider-octave').value;
+    // console.log(noteName + octave);
+    synth.triggerRelease([
+      noteName + octave,
+      noteName + (+octave + 1),
+      noteName + (+octave + 2),
+      noteName + (+octave + 3)
+    ], Tone.now());
   }
 
   init();
